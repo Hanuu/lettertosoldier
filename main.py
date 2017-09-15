@@ -2,15 +2,18 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup
 import urllib.request as req
+import datetime
+
+
 
 #보내고자 글이 있는 URL
-url="https://m.blog.naver.com/koreanewsq/221096478596"
+url="https://m.blog.naver.com/koreanewsq/221097284746"
 #url="http://blog.naver.com/koreanewsq"
 res=req.urlopen(url)
 soup=BeautifulSoup(res,"html.parser")
 
 #보내고자 하는 글의 HTML selector
-news=soup.select_one("#SEDOC-1505344994725-623725129 > div.se_component_wrap.sect_dsc.__se_component_area > div > div > div > div > div > div > p")
+news=soup.select_one("#SEDOC-1505431590361-1492354682 > div.se_component_wrap.sect_dsc.__se_component_area > div > div > div > div > div > div > p")
 
 #글자수입력제한
 totalcharacter=0
@@ -51,7 +54,10 @@ driver.find_element_by_css_selector("#letterBtn").click()
 driver.find_element_by_css_selector("#jwxe_main_content > div > div > div.btn_wrap > form > a").click()
 
 driver.implicitly_wait(80)
-title="9월 14일자 뉴스"
+
+#제목은 오늘날짜
+today=str(datetime.date.today())
+title=today+"뉴스"
 
 #크롬창 알림 제거
 alert=driver.switch_to_alert()
