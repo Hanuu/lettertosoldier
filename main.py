@@ -1,24 +1,10 @@
-
 from selenium import webdriver
+from selenium.webdriver.support.ui import Select
 from bs4 import BeautifulSoup
 import urllib.request as req
 import datetime
 
 
-
-#보내고자 글이 있는 URL
-#url="https://m.blog.naver.com/koreanewsq/221097284746"
-#url="http://blog.naver.com/koreanewsq"
-#res=req.urlopen(url)
-#soup=BeautifulSoup(res,"html.parser")
-
-#보내고자 하는 글의 HTML selector
-#news=soup.select_one("#SEDOC-1505431590361-1492354682 > div.se_component_wrap.sect_dsc.__se_component_area > div > div > div > div > div > div > p")
-
-#글자수입력제한
-
-numberofpages=0
-contents=[""]
 def writeletter(type):
     totalcharacter=0
     global numberofpages
@@ -28,27 +14,32 @@ def writeletter(type):
         url="http://fs.jtbc.joins.com//RSS/newsroom.xml"
         res=req.urlopen(url)
         soup=BeautifulSoup(res,"html.parser")
-        news=soup.select("title")
+        news=soup.select("title,description")
+
+    elif type==2:
+        url="http://rss.joins.com/joins_homenews_list.xml"
+        res =req.urlopen(url)
+        soup=BeautifulSoup(res,"html.parser")
+        news=soup.select("title,description")
 
     
     for a in news:
         b=a.string
     
         if(b!=None):
-            if(totalcharacter>650):
+
+            if(totalcharacter+len(b)>750):
                 numberofpages+=1
                 totalcharacter=0
-            contents.append("")
-            contents[numberofpages]+=b
-            totalcharacter+=len(b)
+                contents.append("")
+                
+            
+            contents[numberofpages]+=b+" / "
+            totalcharacter+=len(b)+3
 
-name="이인석"
-birthday="940223"
+def sendletter(name,birthday,enrollmentdate,type):
 
-
-def sendletter(name,birthday,type):
-
-    writeletter(1)
+    writeletter(type)
     driver = webdriver.Chrome()
     #크롬 창 최대화를 통해 에러제거
     driver.maximize_window()
@@ -57,7 +48,8 @@ def sendletter(name,birthday,type):
     driver.get("http://www.katc.mil.kr/katc/community/children.jsp")
 
     #훈련병 신상
-    #driver.find_element_by_css_selector("#search_val1").send_keys("201709") #고쳐야함
+    select=Select(driver.find_element_by_id("search_val1"))
+    select.select_by_visible_text(enrollmentdate)
     driver.find_element_by_css_selector("#birthDay").send_keys(birthday)
     driver.find_element_by_css_selector("#search_val3").send_keys(name)
 
@@ -76,7 +68,9 @@ def sendletter(name,birthday,type):
     #제목은 오늘날짜
     today=str(datetime.date.today())
     if type ==1:
-        today=+" JTBC "
+        today+=" JTBC "
+    elif type == 2:
+        today+= " 중앙일보 "
     title=today+"뉴스"
 
     #크롬창 알림 제거
@@ -95,6 +89,24 @@ def sendletter(name,birthday,type):
 
         driver.find_element_by_css_selector("#letterBtn").click()
 
-sendletter(name,birthday,1)
+
+
+#보내는 편지의 장수
+numberofpages=0
+#보내는 편지의 문장들
+contents=[""]
+
+enrollmentdate = "20170904"
+name="이인석"
+birthday="940223"
+type=2
+
+enrollmentdate=input("입대일을 입력하세요 (ex:20170904)\n입대일: ")
+name=input("훈련병의 이름을 입력하세요 (ex:이인석)\n이름: ")
+birthday=input("훈련병의 생일을 입력하세요 (ex: 940223)\n생일: ")
+type=int(input("보내실 편지의 내용을 정해주세요(1:JTBC 뉴스, 2:중앙일보 뉴스) 숫자만 입력해주세요\n숫자:"))
+print("핸드폰 인증이 나올때까지 아무것도 건드리지 말아주세요ㅠㅜ")
+
+sendletter(name,birthday,enrollmentdate,type)
     
 #내가 훈련소에 있었을때 매일밤 이 모든 작업을 수작으로 하였던 내 아버지에게 바칩니다.
