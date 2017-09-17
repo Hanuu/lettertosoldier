@@ -22,6 +22,12 @@ def writeletter(type):
         soup=BeautifulSoup(res,"html.parser")
         news=soup.select("title,description")
 
+    elif type ==3:
+        url="http://rss.cnn.com/rss/edition.rss"
+        res=req.urlopen(url)
+        soup=BeautifulSoup(res,"html.parser")
+        news=soup.select("*")
+
     
     for a in news:
         b=a.string
@@ -71,6 +77,8 @@ def sendletter(name,birthday,enrollmentdate,type):
         today+=" JTBC "
     elif type == 2:
         today+= " 중앙일보 "
+    elif type == 3:
+        today+=" CNN "
     title=today+"뉴스"
 
     #크롬창 알림 제거
@@ -104,7 +112,7 @@ type=2
 enrollmentdate=input("입대일을 입력하세요 (ex:20170904)\n입대일: ")
 name=input("훈련병의 이름을 입력하세요 (ex:이인석)\n이름: ")
 birthday=input("훈련병의 생일을 입력하세요 (ex: 940223)\n생일: ")
-type=int(input("보내실 편지의 내용을 정해주세요(1:JTBC 뉴스, 2:중앙일보 뉴스) 숫자만 입력해주세요\n숫자:"))
+type=int(input("보내실 편지의 내용을 정해주세요(1:JTBC 뉴스, 2:중앙일보 뉴스, 3: CNN) 숫자만 입력해주세요\n숫자:"))
 print("핸드폰 인증이 나올때까지 아무것도 건드리지 말아주세요ㅠㅜ")
 
 sendletter(name,birthday,enrollmentdate,type)
