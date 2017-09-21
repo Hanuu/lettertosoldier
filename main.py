@@ -28,10 +28,15 @@ def writeletter(type):
         soup=BeautifulSoup(res,"html.parser")
         news=soup.select("*")
 
-    
+    elif type==4:
+        f=open('text.txt','rt',encoding='UTF8')
+        news=f.read()
+
     for a in news:
-        b=a.string
-    
+        if type !=4:
+            b=a.string
+        else:
+            b=a
         if(b!=None):
 
             if(totalcharacter+len(b)>750):
@@ -39,9 +44,12 @@ def writeletter(type):
                 totalcharacter=0
                 contents.append("")
                 
-            
-            contents[numberofpages]+=b+" / "
-            totalcharacter+=len(b)+3
+            if type !=4:
+                contents[numberofpages]+=b+" / "
+                totalcharacter+=len(b)+3
+            if type ==4:
+                contents[numberofpages] += b
+                totalcharacter+=len(b)
 
 def sendletter(name,birthday,enrollmentdate,type):
 
@@ -74,12 +82,14 @@ def sendletter(name,birthday,enrollmentdate,type):
     #제목은 오늘날짜
     today=str(datetime.date.today())
     if type ==1:
-        today+=" JTBC "
+        today+=" JTBC 뉴스"
     elif type == 2:
-        today+= " 중앙일보 "
+        today+= " 중앙일보 뉴스"
     elif type == 3:
-        today+=" CNN "
-    title=today+"뉴스"
+        today+=" CNN 뉴스"
+    elif type==4:
+        today+="다시만났을때 나는 고대생이였고 그녀는 연대생이였다."
+    title=today
 
     #크롬창 알림 제거
     alert=driver.switch_to_alert()
@@ -112,7 +122,7 @@ type=2
 enrollmentdate=input("입대일을 입력하세요 (ex:20170904)\n입대일: ")
 name=input("훈련병의 이름을 입력하세요 (ex:이인석)\n이름: ")
 birthday=input("훈련병의 생일을 입력하세요 (ex: 940223)\n생일: ")
-type=int(input("보내실 편지의 내용을 정해주세요(1:JTBC 뉴스, 2:중앙일보 뉴스, 3: CNN) 숫자만 입력해주세요\n숫자:"))
+type=int(input("보내실 편지의 내용을 정해주세요(1:JTBC 뉴스, 2:중앙일보 뉴스, 3: CNN, 4:텍스트파일) 숫자만 입력해주세요\n숫자:"))
 print("핸드폰 인증이 나올때까지 아무것도 건드리지 말아주세요ㅠㅜ")
 
 sendletter(name,birthday,enrollmentdate,type)
