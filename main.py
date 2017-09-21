@@ -48,6 +48,10 @@ def writeletter(type):
                 contents[numberofpages]+=b+" / "
                 totalcharacter+=len(b)+3
             if type ==4:
+
+                #육군훈려소의 인터넷 편지는 줄바꿈이 인식이 되지않는다.
+                if(b=="\n"):
+                    b="/"
                 contents[numberofpages] += b
                 totalcharacter+=len(b)
 
