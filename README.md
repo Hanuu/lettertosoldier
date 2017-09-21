@@ -9,6 +9,6 @@
 
 --------------------------------------------
 
-This program is design to send news, text file, facebook timeline(to be added) to the soldiers who are in the ROKA Basic Training Academy in Nonsan().
+This program is designed to send news, text file, facebook timeline(to be added) to the soldiers who are in the ROKA Basic Training Academy in Nonsan().
 
 Special Thanks to my father, who has done this every night for his son with his bare hand.
