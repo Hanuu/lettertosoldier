@@ -32,6 +32,18 @@ def writeletter(type):
         f=open('text.txt','rt',encoding='UTF8')
         news=f.read()
 
+    elif type==5:
+        url = "http://rss.joins.com/sonagi/joins_sonagi_star_list.xml"
+        res = req.urlopen(url)
+        soup = BeautifulSoup(res, "html.parser")
+        news = soup.select("title,description")
+
+    elif type==6:
+        url = "http://rss.joins.com/sonagi/joins_sonagi_sports_list.xml"
+        res = req.urlopen(url)
+        soup = BeautifulSoup(res, "html.parser")
+        news = soup.select("title,description")
+
     for a in news:
         if type !=4:
             b=a.string
@@ -49,7 +61,7 @@ def writeletter(type):
                 totalcharacter+=len(b)+3
             if type ==4:
 
-                #육군훈려소의 인터넷 편지는 줄바꿈이 인식이 되지않는다.
+                #육군훈련소의 인터넷 편지는 줄바꿈이 인식이 되지않는다.
                 if(b=="\n"):
                     b="/"
                 contents[numberofpages] += b
@@ -93,6 +105,10 @@ def sendletter(name,birthday,enrollmentdate,type):
         today+=" CNN 뉴스"
     elif type==4:
         today+="다시만났을때 나는 고대생이였고 그녀는 연대생이였다."
+    elif type==5:
+        today+=" 중앙일보 연예 뉴스"
+    elif type==6:
+        today+=" 중앙일보 스포츠 뉴스"
     title=today
 
     #크롬창 알림 제거
@@ -126,7 +142,7 @@ type=2
 enrollmentdate=input("입대일을 입력하세요 (ex:20170904)\n입대일: ")
 name=input("훈련병의 이름을 입력하세요 (ex:이인석)\n이름: ")
 birthday=input("훈련병의 생일을 입력하세요 (ex: 940223)\n생일: ")
-type=int(input("보내실 편지의 내용을 정해주세요(1:JTBC 뉴스, 2:중앙일보 뉴스, 3: CNN, 4:텍스트파일) 숫자만 입력해주세요\n숫자:"))
+type=int(input("보내실 편지의 내용을 정해주세요(1:JTBC 뉴스, 2:중앙일보 뉴스, 3: CNN, 4:텍스트파일, 5:중앙일보 연예, 6:중앙일보 스포츠) 숫자만 입력해주세요\n숫자:"))
 print("핸드폰 인증이 나올때까지 아무것도 건드리지 말아주세요ㅠㅜ")
 
 sendletter(name,birthday,enrollmentdate,type)
