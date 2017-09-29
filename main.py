@@ -44,6 +44,23 @@ def writeletter(type):
         soup = BeautifulSoup(res, "html.parser")
         news = soup.select("title,description")
 
+    elif type==0:
+
+        url = "http://rss.joins.com/joins_homenews_list.xml"
+        res = req.urlopen(url)
+        soup = BeautifulSoup(res, "html.parser")
+        news = soup.select("title,description")
+
+        url = "http://rss.joins.com/sonagi/joins_sonagi_sports_list.xml"
+        res = req.urlopen(url)
+        soup = BeautifulSoup(res, "html.parser")
+        news += soup.select("title,description")
+
+        url = "http://rss.joins.com/sonagi/joins_sonagi_star_list.xml"
+        res = req.urlopen(url)
+        soup = BeautifulSoup(res, "html.parser")
+        news += soup.select("title,description")
+
     for a in news:
         if type !=4:
             b=a.string
@@ -109,6 +126,8 @@ def sendletter(name,birthday,enrollmentdate,type):
         today+=" 중앙일보 연예 뉴스"
     elif type==6:
         today+=" 중앙일보 스포츠 뉴스"
+    elif type==0:
+        today+=" 중앙일보 기본, 연예, 스포츠 뉴스"
     title=today
 
     #크롬창 알림 제거
