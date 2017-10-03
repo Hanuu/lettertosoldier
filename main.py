@@ -61,6 +61,7 @@ def writeletter(type):
         soup = BeautifulSoup(res, "html.parser")
         news += soup.select("title,description")
 
+
     for a in news:
         if type != 4:
             b = a.string
@@ -69,6 +70,7 @@ def writeletter(type):
         if (b != None):
 
             if (totalcharacter + len(b) > 750):
+                contents[numberofpages]+="@@https://minjunkwak.github.io/@@"
                 numberofpages += 1
                 totalcharacter = 0
                 contents.append("")
@@ -122,7 +124,7 @@ def sendletter(name, birthday, enrollmentdate, type):
     elif type == 3:
         today += " CNN 뉴스"
     elif type == 4:
-        today += "다시만났을때 나는 고대생이였고 그녀는 연대생이였다."
+        today += "[군대얘기] 제 군생활에서 만난 참군인 대대장님 썰.txt"
     elif type == 5:
         today += " 중앙일보 연예 뉴스"
     elif type == 6:
