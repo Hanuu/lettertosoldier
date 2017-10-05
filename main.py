@@ -27,7 +27,8 @@ def mainnews():
         result_text = TITLE + '\n' + get_text(URL) + '\n\n'
 
         result_text = re.sub('[a-zA-Z]', '', result_text)
-        result_text = re.sub('[\{\}\[\]\/?;:|\)*~`!,^\-_+<>@\#$%&\\\=\(\'\"]', '', result_text)
+        result_text = re.sub('[\{\}\[\]\/?,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]', '', result_text)
+
         news+=result_text
 
     return news
