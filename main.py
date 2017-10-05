@@ -18,7 +18,7 @@ def get_text(URL):
 # 뉴스 전문 파싱 by 강재영
 def mainnews():
     news=""
-    RSS_URL = "http://fs.jtbc.joins.com//RSS/morningand.xml"
+    RSS_URL = "http://fs.jtbc.joins.com//RSS/newsrank.xml"
     news_link = feedparser.parse(RSS_URL)
 
     for i in range(0, len(news_link)):
@@ -27,7 +27,7 @@ def mainnews():
         result_text = TITLE + '\n' + get_text(URL) + '\n\n'
 
         result_text = re.sub('[a-zA-Z]', '', result_text)
-        result_text = re.sub('[\{\}\[\]\/?;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]', '', result_text)
+        result_text = re.sub('[\{\}\[\]\/?;:|\)*~`!,^\-_+<>@\#$%&\\\=\(\'\"]', '', result_text)
         news+=result_text
 
     return news
