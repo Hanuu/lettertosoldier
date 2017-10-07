@@ -1,2 +1,6 @@
 *.csv
-*.txt
+.vs/
+__pycache__/
+build/
+dist/
+*.spec

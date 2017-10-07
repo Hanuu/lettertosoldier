@@ -1,3 +1,19 @@
+#Copyright 2007-2009 WebDriver committers
+#Copyright 2007-2009 Google Inc.
+#
+#Licensed under the Apache License, Version 2.0 (the "License");
+#you may not use this file except in compliance with the License.
+#You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+#Unless required by applicable law or agreed to in writing, software
+#distributed under the License is distributed on an "AS IS" BASIS,
+#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#See the License for the specific language governing permissions and
+#limitations under the License.
+
+
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
@@ -11,6 +27,8 @@ import re
 import datetime
 import json;  import csv
 from datetime import date,timedelta; import time;
+from sys import platform
+import os
 
 app_id = ""
 app_secret = ""
@@ -162,7 +180,6 @@ def get_text(URL):
     text = text + str(item.find_all(text=True))
   return text
 
-# 뉴스 전문 파싱 by 강재영
 def mainnews():
     news=""
     RSS_URL = "http://fs.jtbc.joins.com//RSS/newsrank.xml"
@@ -275,7 +292,12 @@ def sendletter(name, birthday, enrollmentdate, type):
     print("자동화된 크롬창을 건들면 프로시져가 취소됩니다.")
     print("휴대폰 인증이 뜨면 인증을 해주세요")
     writeletter(type)
-    driver = webdriver.Chrome()
+    if platform == "darwin":
+        chrome_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'chromedriver')
+        driver = webdriver.Chrome(chrome_path)
+    elif platform == "win32":
+        driver = webdriver.Chrome()
+        
     # 크롬 창 최대화를 통해 에러제거
     driver.maximize_window()
 
@@ -339,6 +361,7 @@ def sendletter(name, birthday, enrollmentdate, type):
         # print("waitafter")
 
         driver.find_element_by_css_selector("#letterBtn").click()
+    driver.quit()
 
 
 # 보내는 편지의 장수
