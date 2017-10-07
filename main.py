@@ -505,3 +505,6 @@ if __name__ == "__main__":
     mywindow = MyWindow()
     mywindow.show()
     app.exec_()
+    
+    
+#내가 훈련소에 있었을때 매일밤 이 모든 작업을 수작으로 하였던 내 아버지에게 바칩니다.
