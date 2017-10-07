@@ -30,6 +30,9 @@ from datetime import date,timedelta; import time;
 from sys import platform
 import os
 
+
+#facebook crawling
+# access_token deleted for security purpose
 app_id = ""
 app_secret = ""
 access_token = app_id + "|" + app_secret
