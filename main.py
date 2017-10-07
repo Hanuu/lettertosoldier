@@ -276,9 +276,9 @@ def sendletter(name, birthday, enrollmentdate, type):
     print("자동화된 크롬창을 건들면 프로시져가 취소됩니다.")
     print("휴대폰 인증이 뜨면 인증을 해주세요")
     writeletter(type)
-    if platform == "darwin"
+    if platform == "darwin":
         driver = webdriver.Chrome('./chromedriver')
-    elif platform == "win32"
+    elif platform == "win32":
         driver = webdriver.Chrome()
         
     # 크롬 창 최대화를 통해 에러제거
