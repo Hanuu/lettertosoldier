@@ -370,13 +370,13 @@ class MyWindow(QMainWindow):
         soldierbirthdate = QLabel("훈련병 생일", self)
         soldierbirthdate.move(20, 95)
 
-        soldiername = QLabel("(예: 이인석)", self)
+        soldiername = QLabel("(예: 이)", self)
         soldiername.move(200, 25)
 
-        enlistmentdate = QLabel("(예: 20170904)", self)
+        enlistmentdate = QLabel("(예: 20170908)", self)
         enlistmentdate.move(200, 60)
 
-        soldierbirthdate = QLabel("(예: 940223)", self)
+        soldierbirthdate = QLabel("(예: 940228)", self)
         soldierbirthdate.move(200, 95)
 
         # LineEdit
