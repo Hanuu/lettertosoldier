@@ -28,6 +28,7 @@ import datetime
 import json;  import csv
 from datetime import date,timedelta; import time;
 from sys import platform
+import os
 
 app_id = ""
 app_secret = ""
@@ -179,7 +180,6 @@ def get_text(URL):
     text = text + str(item.find_all(text=True))
   return text
 
-# 뉴스 전문 파싱 by 강재영
 def mainnews():
     news=""
     RSS_URL = "http://fs.jtbc.joins.com//RSS/newsrank.xml"
@@ -293,7 +293,8 @@ def sendletter(name, birthday, enrollmentdate, type):
     print("휴대폰 인증이 뜨면 인증을 해주세요")
     writeletter(type)
     if platform == "darwin":
-        driver = webdriver.Chrome('./chromedriver')
+        chrome_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'chromedriver')
+        driver = webdriver.Chrome(chrome_path)
     elif platform == "win32":
         driver = webdriver.Chrome()
         
