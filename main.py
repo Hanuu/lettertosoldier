@@ -339,6 +339,7 @@ def sendletter(name, birthday, enrollmentdate, type):
         # print("waitafter")
 
         driver.find_element_by_css_selector("#letterBtn").click()
+    driver.quit()
 
 
 # 보내는 편지의 장수
