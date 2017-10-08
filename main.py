@@ -516,15 +516,15 @@ class MyWindow(QMainWindow):
 
         # print(inputName, inputEnroll,inputBirth)
         if inputName==[]:
-            self.label.setText(" 이름이 형식에 맞지 않습니다 다시 입력해주세요")
+            self.label.setText(" 이름이 형식에 맞지 않습니다")
             print("이름이 형식에 맞지 않습니다 다시 입력해주세요")
             return
         if inputEnroll==[]:
-            self.label.setText(" 입대일이 형식에 맞지 않습니다 다시 입력해주세요")
+            self.label.setText(" 입대일이 형식에 맞지 않습니다")
             print("입대일이 형식에 맞지 않습니다 다시 입력해주세요")
             return
         if inputBirth==[]:
-            self.label.setText(" 훈련병 생일에 맞지 않습니다 다시 입력해주세요")
+            self.label.setText(" 훈련병 생일이 형식에 맞지 않습니다")
             print("훈련병 생일이 형식에 맞지 않습니다 다시 입력해주세요")
             return
 
