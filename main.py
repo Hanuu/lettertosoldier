@@ -296,11 +296,7 @@ def sendletter(name, birthday, enrollmentdate, type):
     print("휴대폰 인증이 뜨면 인증을 해주세요")
     writeletter(type)
     if platform == "darwin":
-        if getattr(sys,'frozen',False):
-            driver_path=os.path.join(uppath(sys._MEIPASS,3),'chromedriver')
-        else:
-            driver_path=os.path.join(os.path.dirname(os.path.abspath(__file__)),'chromedriver')
-        driver = webdriver.Chrome(driver_path)
+        driver = webdriver.Chrome("./chromedriver")
     elif platform == "win32":
         driver = webdriver.Chrome()
         
