@@ -8,9 +8,18 @@ Usage:
 from setuptools import setup
 
 APP = ['main.py']
-DATA_FILES = ['chromedriver','text.txt']
+DATA_FILES = ['chromedriver', 'text.txt']
 OPTIONS = {
-    'iconfile' : 'icon.icns'
+    'argv_emulation': True,
+    'iconfile':'icon.icns',
+    'plist': {
+        'CFBundleName': "LetterToSoldier",
+        'CFBundleDisplayName': "LetterToSoldier",
+        'CFBundleGetInfoString': "Write letters to soldiers!",
+        'CFBundleIdentifier': "com.hands.lettersoldier",
+        'CFBundleVersion': "1.2.0",
+        'CFBundleShortVersionString': "1.2.0",
+    }
 }
 
 setup(
