@@ -14,7 +14,7 @@
 #limitations under the License.
 
 
-import sys
+import sys, os
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from selenium import webdriver
@@ -28,7 +28,6 @@ import datetime
 import json;  import csv
 from datetime import date,timedelta; import time;
 from sys import platform
-import os
 
 app_id = ""
 app_secret = ""
@@ -287,14 +286,18 @@ def writeletter(type):
                 contents[numberofpages] += b + " / "
                 totalcharacter += len(b) + 3
 
+uppath = lambda _path, n: os.sep.join(_path.split(os.sep)[:-n])
 
 def sendletter(name, birthday, enrollmentdate, type):
     print("자동화된 크롬창을 건들면 프로시져가 취소됩니다.")
     print("휴대폰 인증이 뜨면 인증을 해주세요")
     writeletter(type)
     if platform == "darwin":
-        chrome_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'chromedriver')
-        driver = webdriver.Chrome(chrome_path)
+        if getattr(sys,'frozen',False):
+            driver_path=os.path.join(uppath(sys._MEIPASS,3),'chromedriver')
+        else:
+            driver_path=os.path.join(os.path.dirname(os.path.abspath(__file__)),'chromedriver')
+        driver = webdriver.Chrome(driver_path)
     elif platform == "win32":
         driver = webdriver.Chrome()
         
