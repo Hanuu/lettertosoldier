@@ -387,7 +387,7 @@ class MyWindow(QMainWindow):
         self.setupUI()
 
     def setupUI(self):
-        self.setGeometry(800, 400, 350, 350)
+        self.setGeometry(800, 400, 360, 360)
 
         # Label
         soldiername = QLabel("훈련병 이름", self)
@@ -408,6 +408,8 @@ class MyWindow(QMainWindow):
         soldierbirthdate = QLabel("(예: 940228)", self)
         soldierbirthdate.move(200, 95)
 
+
+
         # LineEdit
         self.lineEditName = QLineEdit("", self)
         self.lineEditName.move(90, 25)
@@ -420,6 +422,11 @@ class MyWindow(QMainWindow):
         self.lineEditSoldierBirthDate = QLineEdit("", self)
         self.lineEditSoldierBirthDate.move(90, 95)
         self.lineEditSoldierBirthDate.textChanged.connect(self.lineEditChanged)
+
+
+
+        global inputName,inputBirth,inputEnroll
+
 
         # StatusBar
         self.statusBar = QStatusBar(self)
@@ -449,10 +456,10 @@ class MyWindow(QMainWindow):
         self.radio5.clicked.connect(self.radioButtonClicked)
 
         textLabel = QLabel("Message:  ", self)
-        textLabel.move(20, 225)
+        textLabel.move(20, 240)
 
         self.label = QLabel("", self)
-        self.label.move(80, 225)
+        self.label.move(80, 240)
         self.label.resize(300, 30)
 
         btn1 = QPushButton("보내기", self)
@@ -464,6 +471,7 @@ class MyWindow(QMainWindow):
         self.setStatusBar(self.statusBar)
 
     def lineEditChanged(self):
+
         global name,enrollmentdate,birthday
         name=self.lineEditName.text()
         enrollmentdate=self.lineEditEnlistmentDate.text()
@@ -496,12 +504,40 @@ class MyWindow(QMainWindow):
         self.statusBar.showMessage(msg + " 선택 됨")
 
     def btn1_clicked(self):
-        self.label.setText("핸드폰 인증이 뜰때까지 아무것도 건드리지마세요")
+
+        # regexp
+        regexName = r'[가-힣]'
+        regexEnroll = r'(?<!\d)(?:(?:20\d{2})(?:(?:(?:0[13578]|1[02])31)|(?:(?:0[1,3-9]|1[0-2])(?:29|30)))|(?:(?:20(?:0[48]|[2468][048]|[13579][26]))0229)|(?:20\d{2})(?:(?:0?[1-9])|(?:1[0-2]))(?:0?[1-9]|1\d|2[0-8]))(?!\d)'
+        regexBirth = r'(?<!\d)(?:(?:20\d{2})(?:(?:(?:0[13578]|1[02])31)|(?:(?:0[1,3-9]|1[0-2])(?:29|30)))|(?:(?:20(?:0[48]|[2468][048]|[13579][26]))0229)|(?:20\d{2})(?:(?:0?[1-9])|(?:1[0-2]))(?:0?[1-9]|1\d|2[0-8]))(?!\d)'
+
+        global inputName, inputEnroll,inputBirth
+
+        self.label.setText(" 핸드폰 인증이 뜰때까지 아무것도 건드리지마세요")
+
+        inputName = re.findall(regexName, self.lineEditName.text())
+        inputEnroll = re.findall(regexEnroll, self.lineEditEnlistmentDate.text())
+        inputBirth = re.findall(regexBirth, self.lineEditSoldierBirthDate.text())
+
+        # print(inputName, inputEnroll,inputBirth)
+        if inputName==[]:
+            self.label.setText(" 이름이 형식에 맞지 않습니다 다시 입력해주세요")
+            print("이름이 형식에 맞지 않습니다 다시 입력해주세요")
+            return
+        if inputEnroll==[]:
+            self.label.setText(" 입대일이 형식에 맞지 않습니다 다시 입력해주세요")
+            print("입대일이 형식에 맞지 않습니다 다시 입력해주세요")
+            return
+        if inputBirth==[]:
+            self.label.setText(" 훈련병 생일에 맞지 않습니다 다시 입력해주세요")
+            print("훈련병 생일이 형식에 맞지 않습니다 다시 입력해주세요")
+            return
+
         global name,birthday,enrollmentdate, type
+
+        self.label.setText(" 핸드폰 인증이 뜰때까지 아무것도 건드리지마세요")
         sendletter(name,birthday,enrollmentdate, type)
 
-    def btn2_clicked(self):
-        self.label.clear()
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
