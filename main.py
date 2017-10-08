@@ -137,7 +137,7 @@ def processFacebookPageFeedStatus(status):
 
 def fetch_feed():
     # print("I am string")
-    print("대나무 숲은 데이터를 긁어오는데 시간이 걸립니다. 조금만 기다려주세요")
+    print("대나무 숲은 데이터를 긁어오는데 시간이 걸립니다. 조금만 기다려주세요\n 컴퓨터성능에 따라 1~5분정도 걸립니다.")
     one_json = getFacebookPageFeedData(page_id, access_token, since, until)
     wan_data = ""
     j = 0
