@@ -29,6 +29,9 @@ import json;  import csv
 from datetime import date,timedelta; import time;
 from sys import platform
 
+
+#facebook crawling
+# access_token deleted for security purpose
 app_id = ""
 app_secret = ""
 access_token = app_id + "|" + app_secret
@@ -396,13 +399,13 @@ class MyWindow(QMainWindow):
         soldierbirthdate = QLabel("훈련병 생일", self)
         soldierbirthdate.move(20, 95)
 
-        soldiername = QLabel("(예: 이인석)", self)
+        soldiername = QLabel("(예: 이인준)", self)
         soldiername.move(200, 25)
 
-        enlistmentdate = QLabel("(예: 20170904)", self)
+        enlistmentdate = QLabel("(예: 20170908)", self)
         enlistmentdate.move(200, 60)
 
-        soldierbirthdate = QLabel("(예: 940223)", self)
+        soldierbirthdate = QLabel("(예: 940228)", self)
         soldierbirthdate.move(200, 95)
 
         # LineEdit
@@ -505,3 +508,6 @@ if __name__ == "__main__":
     mywindow = MyWindow()
     mywindow.show()
     app.exec_()
+    
+    
+#내가 훈련소에 있었을때 매일밤 이 모든 작업을 수작으로 하였던 내 아버지에게 바칩니다.
