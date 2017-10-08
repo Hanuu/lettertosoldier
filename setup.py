@@ -9,7 +9,9 @@ from setuptools import setup
 
 APP = ['main.py']
 DATA_FILES = ['chromedriver','text.txt']
-OPTIONS = {}
+OPTIONS = {
+    'iconfile' : 'icon.icns'
+}
 
 setup(
     app=APP,
