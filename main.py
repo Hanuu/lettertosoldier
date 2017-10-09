@@ -35,7 +35,9 @@ from sys import platform
 app_id = ""
 app_secret = ""
 access_token = app_id + "|" + app_secret
-page_id = "206910909512230"
+page_id_korea = "206910909512230"
+page_id_yonsei = "180446095498086"
+page_id_snu = "560898400668463"
 since = str(date.today()-timedelta(1))
 until = str(date.today())
 
@@ -135,7 +137,7 @@ def processFacebookPageFeedStatus(status):
     return (status_message, status_published, num_likes, com)
 
 
-def fetch_feed():
+def fetch_feed(page_id):
     # print("I am string")
     print("대나무 숲은 데이터를 긁어오는데 시간이 걸립니다. 조금만 기다려주세요\n 컴퓨터성능에 따라 1~5분정도 걸립니다.")
     one_json = getFacebookPageFeedData(page_id, access_token, since, until)
@@ -261,17 +263,27 @@ def writecontent(type):
         res = req.urlopen(url)
         soup = BeautifulSoup(res, "html.parser")
         news += soup.select("title,description")
-
+    
+    #민족고대
     elif type ==8:
-        news=fetch_feed()
+        news=fetch_feed(page_id_korea)
         # print("before")
-
+    #통일연세
+    elif type==9:
+        news=fetch_feed(page_id_yonsei)
+        print(news)
+    
+    #자주관악
+    elif type==10:
+        news=fetch_feed(page_id_snu)
+        print(news)
 
     for a in news:
-        if type == 4 or type ==7 or type ==8 :
+        if type == 4 or type ==7 or type ==8 or type==9 or type==10:
             b = a
         else:
             b = a.string
+
         if (b != None):
 
             if (totalcharacter + len(b) > 730):
@@ -280,7 +292,7 @@ def writecontent(type):
                 totalcharacter = 0
                 contents.append("")
 
-            if type == 4 or type ==7 or type==8:
+            if type == 4 or type ==7 or type==8 or type==9 or type==10:
 
                 # 육군훈련소의 인터넷 편지는 줄바꿈이 인식이 되지않는다.
                 if (b == "\n"):
@@ -355,6 +367,10 @@ def sendletter(name, birthday, enrollmentdate, types):
             today += " 중앙일보 기본, 연예, 스포츠 뉴스"
         elif type == 8:
             today += " 고려대학교 대나무숲"
+        elif type==9:
+            today+=" 연세대학교 대나무숲"
+        elif type==10:
+            today+=" 서울대학교 대나무숲"
         title = today
 
         writecontent(type)
@@ -382,12 +398,12 @@ def sendletter(name, birthday, enrollmentdate, types):
 # 보내는 편지의 장수
 numberofpages = 0
 # 보내는 편지의 문장들
-contents = [""]
+contents = ["@@ https://minjunkwak.github.io/ @@"]
 
 enrollmentdate = "20170904"
-name = "이인석"
-birthday = "940223"
-types = [7,0,4,3,8]
+name = "이인준"
+birthday = "940228"
+types = [7,0,4,3,8,9,10]
 
 
 class MyWindow(QMainWindow):
@@ -469,15 +485,25 @@ class MyWindow(QMainWindow):
         self.checkbox5.stateChanged.connect(self.checkBoxState)
         # self.radio5.clicked.connect(self.radioButtonClicked)
 
+        self.checkbox6 = QCheckBox("연대 대나무숲", self)
+        self.checkbox6.move(20, 225)
+        self.checkbox6.stateChanged.connect(self.checkBoxState)
+
+        self.checkbox7 = QCheckBox("서울대 대나무숲", self)
+        self.checkbox7.move(20, 245)
+        self.checkbox7.resize(300, 30)
+        self.checkbox7.stateChanged.connect(self.checkBoxState)
+
+
         textLabel = QLabel("Message:  ", self)
-        textLabel.move(20, 240)
+        textLabel.move(20, 265)
 
         self.label = QLabel("", self)
-        self.label.move(80, 240)
+        self.label.move(80, 265)
         self.label.resize(300, 30)
 
         btn1 = QPushButton("보내기", self)
-        btn1.move(200, 265)
+        btn1.move(200, 305)
         btn1.clicked.connect(self.btn1_clicked)
 
 
@@ -538,8 +564,23 @@ class MyWindow(QMainWindow):
         elif self.checkbox5.isChecked() != True:
             for i in range(0,types.count(8)):
                 types.remove(8)
-        # types=set(types)
-        # print(types)
+
+        if self.checkbox6.isChecked() == True:
+            msg += "연대 대나무숲 "
+            types.append(9)
+            # print(types)
+        elif self.checkbox6.isChecked() != True:
+            for i in range(0, types.count(9)):
+                types.remove(9)
+                
+        if self.checkbox7.isChecked() == True:
+            msg += "서울대 대나무숲 "
+            types.append(10)
+            # print(types)
+        elif self.checkbox7.isChecked() != True:
+            for i in range(0, types.count(10)):
+                types.remove(10)
+
         self.statusBar.showMessage(msg)
 
     def btn1_clicked(self):
