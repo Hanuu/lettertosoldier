@@ -296,11 +296,7 @@ def sendletter(name, birthday, enrollmentdate, type):
     print("휴대폰 인증이 뜨면 인증을 해주세요")
     writeletter(type)
     if platform == "darwin":
-        if getattr(sys,'frozen',False):
-            driver_path=os.path.join(uppath(sys._MEIPASS,3),'chromedriver')
-        else:
-            driver_path=os.path.join(os.path.dirname(os.path.abspath(__file__)),'chromedriver')
-        driver = webdriver.Chrome(driver_path)
+        driver = webdriver.Chrome("./chromedriver")
     elif platform == "win32":
         driver = webdriver.Chrome()
         
@@ -508,7 +504,7 @@ class MyWindow(QMainWindow):
         # regexp
         regexName = r'[가-힣]'
         regexEnroll = r'(?<!\d)(?:(?:20\d{2})(?:(?:(?:0[13578]|1[02])31)|(?:(?:0[1,3-9]|1[0-2])(?:29|30)))|(?:(?:20(?:0[48]|[2468][048]|[13579][26]))0229)|(?:20\d{2})(?:(?:0?[1-9])|(?:1[0-2]))(?:0?[1-9]|1\d|2[0-8]))(?!\d)'
-        regexBirth = r'(?<!\d)(?:(?:20\d{2})(?:(?:(?:0[13578]|1[02])31)|(?:(?:0[1,3-9]|1[0-2])(?:29|30)))|(?:(?:20(?:0[48]|[2468][048]|[13579][26]))0229)|(?:20\d{2})(?:(?:0?[1-9])|(?:1[0-2]))(?:0?[1-9]|1\d|2[0-8]))(?!\d)'
+        regexBirth = r'^((\d{2}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|([02468][048]|[13579][26])0229)$'
 
         global inputName, inputEnroll,inputBirth
 
@@ -520,15 +516,15 @@ class MyWindow(QMainWindow):
 
         # print(inputName, inputEnroll,inputBirth)
         if inputName==[]:
-            self.label.setText(" 이름이 형식에 맞지 않습니다 다시 입력해주세요")
+            self.label.setText(" 이름이 형식에 맞지 않습니다")
             print("이름이 형식에 맞지 않습니다 다시 입력해주세요")
             return
         if inputEnroll==[]:
-            self.label.setText(" 입대일이 형식에 맞지 않습니다 다시 입력해주세요")
+            self.label.setText(" 입대일이 형식에 맞지 않습니다")
             print("입대일이 형식에 맞지 않습니다 다시 입력해주세요")
             return
         if inputBirth==[]:
-            self.label.setText(" 훈련병 생일에 맞지 않습니다 다시 입력해주세요")
+            self.label.setText(" 훈련병 생일이 형식에 맞지 않습니다")
             print("훈련병 생일이 형식에 맞지 않습니다 다시 입력해주세요")
             return
 
