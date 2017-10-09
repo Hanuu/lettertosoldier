@@ -298,53 +298,10 @@ def writecontent(type):
     contents[numberofpages] += "@@ https://minjunkwak.github.io/ @@"
 uppath = lambda _path, n: os.sep.join(_path.split(os.sep)[:-n])
 
-# def sendcontent(type):
-#     driver.implicitly_wait(3000)
-#     # 제목은 오늘날짜
-#     print("send content")
-#     today = str(datetime.date.today())
-#     if type == 1:
-#         today += " JTBC 뉴스"
-#     elif type == 2:
-#         today += " 중앙일보 뉴스"
-#     elif type == 3:
-#         today += " CNN 뉴스"
-#     elif type == 4:
-#         today += "텍스트파일.txt"
-#     elif type == 5:
-#         today += " 중앙일보 연예 뉴스"
-#     elif type == 6:
-#         today += " 중앙일보 스포츠 뉴스"
-#     elif type == 7:
-#         today += " JTBC 탑텐 뉴스 전문"
-#     elif type == 0:
-#         today += " 중앙일보 기본, 연예, 스포츠 뉴스"
-#     elif type == 8:
-#         today += " 고려대학교 대나무숲"
-#     title = today
-#
-#     # 크롬창 알림 제거
-#     alert = driver.switch_to_alert()
-#     print("편지 작성이 시작됩니다. 크롬창을 가만히 두세요")
-#     # 편지작성(글자수에 따른 분할)
-#     for i in range(0, numberofpages + 1):
-#         driver.find_element_by_css_selector("#article_title").send_keys(title + str(i + 1))
-#         driver.find_element_by_css_selector("#article_text").send_keys(contents[i])
-#         driver.find_element_by_css_selector("#writer_password").send_keys("1234")
-#         driver.find_element_by_css_selector(
-#             "#jwxe_main_content > div > div > form > fieldset > div > div > input").click()
-#         alert.accept()
-#         # print("waitbefore")
-#         # driver.implicitly_wait(80)
-#         # print("waitafter")
-#
-#         driver.find_element_by_css_selector("#letterBtn").click()
 
 def sendletter(name, birthday, enrollmentdate, types):
     print("자동화된 크롬창을 건들면 프로시져가 취소됩니다.")
     print("휴대폰 인증이 뜨면 인증을 해주세요")
-    # for i in types:
-    #     writecontent(i)
 
     if platform == "darwin":
         driver = webdriver.Chrome("./chromedriver")
@@ -376,44 +333,6 @@ def sendletter(name, birthday, enrollmentdate, types):
 
     driver.implicitly_wait(3000)
 
-    # # 제목은 오늘날짜
-    # today = str(datetime.date.today())
-    # if type == 1:
-    #     today += " JTBC 뉴스"
-    # elif type == 2:
-    #     today += " 중앙일보 뉴스"
-    # elif type == 3:
-    #     today += " CNN 뉴스"
-    # elif type == 4:
-    #     today += "텍스트파일.txt"
-    # elif type == 5:
-    #     today += " 중앙일보 연예 뉴스"
-    # elif type == 6:
-    #     today += " 중앙일보 스포츠 뉴스"
-    # elif type == 7:
-    #     today += " JTBC 탑텐 뉴스 전문"
-    # elif type == 0:
-    #     today += " 중앙일보 기본, 연예, 스포츠 뉴스"
-    # elif type ==8:
-    #     today+=" 고려대학교 대나무숲"
-    # title = today
-    #
-    # # 크롬창 알림 제거
-    # alert = driver.switch_to_alert()
-    # print("편지 작성이 시작됩니다. 크롬창을 가만히 두세요")
-    # # 편지작성(글자수에 따른 분할)
-    # for i in range(0, numberofpages + 1):
-    #     driver.find_element_by_css_selector("#article_title").send_keys(title + str(i + 1))
-    #     driver.find_element_by_css_selector("#article_text").send_keys(contents[i])
-    #     driver.find_element_by_css_selector("#writer_password").send_keys("1234")
-    #     driver.find_element_by_css_selector(
-    #         "#jwxe_main_content > div > div > form > fieldset > div > div > input").click()
-    #     alert.accept()
-    #     # print("waitbefore")
-    #     # driver.implicitly_wait(80)
-    #     # print("waitafter")
-    #
-    #     driver.find_element_by_css_selector("#letterBtn").click()
 
     for type in types:
         # 제목은 오늘날짜
@@ -572,30 +491,6 @@ class MyWindow(QMainWindow):
         enrollmentdate=self.lineEditEnlistmentDate.text()
         birthday=self.lineEditSoldierBirthDate.text()
 
-     # def radioButtonClicked(self):
-     #    msg = ""
-     #    global type
-     #    if self.radio1.isChecked():
-     #        msg = "JTBC 뉴스 Top 10 전문"
-     #        type=7
-     #
-     #    elif self.radio2.isChecked():
-     #        msg = "중앙일보 기본, 연예, 스포츠 요약"
-     #        type=0
-     #
-     #    elif self.radio3.isChecked():
-     #        msg="텍스트 파일"
-     #        type=4
-     #
-     #    elif self.radio4.isChecked():
-     #        msg= "CNN 요약"
-     #        type=3
-     #
-     #    elif self.radio5.isChecked():
-     #        msg = "고대 대나무숲"
-     #        type=8
-     #
-     #    self.statusBar.showMessage(msg + " 선택 됨")
 
     def checkBoxState(self):
 
