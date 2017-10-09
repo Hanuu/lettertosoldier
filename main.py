@@ -200,9 +200,12 @@ def mainnews():
     return news
 
 
-def writeletter(type):
+def writecontent(type):
+
     totalcharacter = 0
-    global numberofpages
+    global numberofpages, contents
+    numberofpages = 0
+    contents = [""]
     url = "http://www.google.com"
 
     if type == 1:
@@ -261,7 +264,7 @@ def writeletter(type):
 
     elif type ==8:
         news=fetch_feed()
-        print("before")
+        # print("before")
 
 
     for a in news:
@@ -271,8 +274,8 @@ def writeletter(type):
             b = a.string
         if (b != None):
 
-            if (totalcharacter + len(b) > 750):
-                contents[numberofpages]+="@@https://minjunkwak.github.io/@@"
+            if (totalcharacter + len(b) > 730):
+                contents[numberofpages]+="@@ https://minjunkwak.github.io/ @@"
                 numberofpages += 1
                 totalcharacter = 0
                 contents.append("")
@@ -289,12 +292,60 @@ def writeletter(type):
                 contents[numberofpages] += b + " / "
                 totalcharacter += len(b) + 3
 
+    numberofpages += 1
+    totalcharacter = 0
+    contents.append("")
+    contents[numberofpages] += "@@ https://minjunkwak.github.io/ @@"
 uppath = lambda _path, n: os.sep.join(_path.split(os.sep)[:-n])
 
-def sendletter(name, birthday, enrollmentdate, type):
+# def sendcontent(type):
+#     driver.implicitly_wait(3000)
+#     # 제목은 오늘날짜
+#     print("send content")
+#     today = str(datetime.date.today())
+#     if type == 1:
+#         today += " JTBC 뉴스"
+#     elif type == 2:
+#         today += " 중앙일보 뉴스"
+#     elif type == 3:
+#         today += " CNN 뉴스"
+#     elif type == 4:
+#         today += "텍스트파일.txt"
+#     elif type == 5:
+#         today += " 중앙일보 연예 뉴스"
+#     elif type == 6:
+#         today += " 중앙일보 스포츠 뉴스"
+#     elif type == 7:
+#         today += " JTBC 탑텐 뉴스 전문"
+#     elif type == 0:
+#         today += " 중앙일보 기본, 연예, 스포츠 뉴스"
+#     elif type == 8:
+#         today += " 고려대학교 대나무숲"
+#     title = today
+#
+#     # 크롬창 알림 제거
+#     alert = driver.switch_to_alert()
+#     print("편지 작성이 시작됩니다. 크롬창을 가만히 두세요")
+#     # 편지작성(글자수에 따른 분할)
+#     for i in range(0, numberofpages + 1):
+#         driver.find_element_by_css_selector("#article_title").send_keys(title + str(i + 1))
+#         driver.find_element_by_css_selector("#article_text").send_keys(contents[i])
+#         driver.find_element_by_css_selector("#writer_password").send_keys("1234")
+#         driver.find_element_by_css_selector(
+#             "#jwxe_main_content > div > div > form > fieldset > div > div > input").click()
+#         alert.accept()
+#         # print("waitbefore")
+#         # driver.implicitly_wait(80)
+#         # print("waitafter")
+#
+#         driver.find_element_by_css_selector("#letterBtn").click()
+
+def sendletter(name, birthday, enrollmentdate, types):
     print("자동화된 크롬창을 건들면 프로시져가 취소됩니다.")
     print("휴대폰 인증이 뜨면 인증을 해주세요")
-    writeletter(type)
+    # for i in types:
+    #     writecontent(i)
+
     if platform == "darwin":
         driver = webdriver.Chrome("./chromedriver")
     elif platform == "win32":
@@ -323,46 +374,89 @@ def sendletter(name, birthday, enrollmentdate, type):
     # driver.find_element_by_css_selector("#letterBtn").click()
     driver.find_element_by_css_selector("#jwxe_main_content > div > div > div.btn_wrap > form > a").click()
 
-    driver.implicitly_wait(80)
+    driver.implicitly_wait(3000)
 
-    # 제목은 오늘날짜
-    today = str(datetime.date.today())
-    if type == 1:
-        today += " JTBC 뉴스"
-    elif type == 2:
-        today += " 중앙일보 뉴스"
-    elif type == 3:
-        today += " CNN 뉴스"
-    elif type == 4:
-        today += "텍스트파일.txt"
-    elif type == 5:
-        today += " 중앙일보 연예 뉴스"
-    elif type == 6:
-        today += " 중앙일보 스포츠 뉴스"
-    elif type == 7:
-        today += " JTBC 탑텐 뉴스 전문"
-    elif type == 0:
-        today += " 중앙일보 기본, 연예, 스포츠 뉴스"
-    elif type ==8:
-        today+=" 고려대학교 대나무숲"
-    title = today
+    # # 제목은 오늘날짜
+    # today = str(datetime.date.today())
+    # if type == 1:
+    #     today += " JTBC 뉴스"
+    # elif type == 2:
+    #     today += " 중앙일보 뉴스"
+    # elif type == 3:
+    #     today += " CNN 뉴스"
+    # elif type == 4:
+    #     today += "텍스트파일.txt"
+    # elif type == 5:
+    #     today += " 중앙일보 연예 뉴스"
+    # elif type == 6:
+    #     today += " 중앙일보 스포츠 뉴스"
+    # elif type == 7:
+    #     today += " JTBC 탑텐 뉴스 전문"
+    # elif type == 0:
+    #     today += " 중앙일보 기본, 연예, 스포츠 뉴스"
+    # elif type ==8:
+    #     today+=" 고려대학교 대나무숲"
+    # title = today
+    #
+    # # 크롬창 알림 제거
+    # alert = driver.switch_to_alert()
+    # print("편지 작성이 시작됩니다. 크롬창을 가만히 두세요")
+    # # 편지작성(글자수에 따른 분할)
+    # for i in range(0, numberofpages + 1):
+    #     driver.find_element_by_css_selector("#article_title").send_keys(title + str(i + 1))
+    #     driver.find_element_by_css_selector("#article_text").send_keys(contents[i])
+    #     driver.find_element_by_css_selector("#writer_password").send_keys("1234")
+    #     driver.find_element_by_css_selector(
+    #         "#jwxe_main_content > div > div > form > fieldset > div > div > input").click()
+    #     alert.accept()
+    #     # print("waitbefore")
+    #     # driver.implicitly_wait(80)
+    #     # print("waitafter")
+    #
+    #     driver.find_element_by_css_selector("#letterBtn").click()
 
-    # 크롬창 알림 제거
-    alert = driver.switch_to_alert()
-    print("편지 작성이 시작됩니다. 크롬창을 가만히 두세요")
-    # 편지작성(글자수에 따른 분할)
-    for i in range(0, numberofpages + 1):
-        driver.find_element_by_css_selector("#article_title").send_keys(title + str(i + 1))
-        driver.find_element_by_css_selector("#article_text").send_keys(contents[i])
-        driver.find_element_by_css_selector("#writer_password").send_keys("1234")
-        driver.find_element_by_css_selector(
-            "#jwxe_main_content > div > div > form > fieldset > div > div > input").click()
-        alert.accept()
-        # print("waitbefore")
-        # driver.implicitly_wait(80)
-        # print("waitafter")
+    for type in types:
+        # 제목은 오늘날짜
+        today = str(datetime.date.today())
+        if type == 1:
+            today += " JTBC 뉴스"
+        elif type == 2:
+            today += " 중앙일보 뉴스"
+        elif type == 3:
+            today += " CNN 뉴스"
+        elif type == 4:
+            today += "텍스트파일.txt"
+        elif type == 5:
+            today += " 중앙일보 연예 뉴스"
+        elif type == 6:
+            today += " 중앙일보 스포츠 뉴스"
+        elif type == 7:
+            today += " JTBC 탑텐 뉴스 전문"
+        elif type == 0:
+            today += " 중앙일보 기본, 연예, 스포츠 뉴스"
+        elif type == 8:
+            today += " 고려대학교 대나무숲"
+        title = today
 
-        driver.find_element_by_css_selector("#letterBtn").click()
+        writecontent(type)
+
+        # 크롬창 알림 제거
+        alert = driver.switch_to_alert()
+        print("편지 작성이 시작됩니다. 크롬창을 가만히 두세요")
+        # 편지작성(글자수에 따른 분할)
+        for i in range(0, numberofpages + 1):
+            driver.find_element_by_css_selector("#article_title").send_keys(title + str(i + 1))
+            driver.find_element_by_css_selector("#article_text").send_keys(contents[i])
+            driver.find_element_by_css_selector("#writer_password").send_keys("1234")
+            driver.find_element_by_css_selector(
+                "#jwxe_main_content > div > div > form > fieldset > div > div > input").click()
+            alert.accept()
+            # print("waitbefore")
+            # driver.implicitly_wait(80)
+            # print("waitafter")
+
+            driver.find_element_by_css_selector("#letterBtn").click()
+
     driver.quit()
 
 
@@ -374,7 +468,7 @@ contents = [""]
 enrollmentdate = "20170904"
 name = "이인석"
 birthday = "940223"
-type = 7
+types = [7,0,4,3,8]
 
 
 class MyWindow(QMainWindow):
@@ -428,28 +522,33 @@ class MyWindow(QMainWindow):
         self.statusBar = QStatusBar(self)
         self.setStatusBar(self.statusBar)
 
-        self.radio1 = QRadioButton("JTBC Top 10 전문", self)
-        self.radio1.move(20, 125)
-        self.radio1.setChecked(True)
-        self.radio1.clicked.connect(self.radioButtonClicked)
-        self.radio1.resize(200,30)
+        self.checkbox1 = QCheckBox("JTBC Top 10 전문", self)
+        self.checkbox1.move(20, 125)
+        # self.checkbox1.setChecked(True)
+        self.checkbox1.stateChanged.connect(self.checkBoxState)
+        # self.radio1.clicked.connect(self.radioButtonClicked)
+        self.checkbox1.resize(200,30)
 
-        self.radio2 = QRadioButton("중앙일보 기본, 연예, 스포츠 요약", self)
-        self.radio2.move(20, 145)
-        self.radio2.clicked.connect(self.radioButtonClicked)
-        self.radio2.resize(200, 30)
+        self.checkbox2 = QCheckBox("중앙일보 기본, 연예, 스포츠 요약", self)
+        self.checkbox2.move(20, 145)
+        # self.checkbox2.clicked.connect(self.radioButtonClicked)
+        self.checkbox2.stateChanged.connect(self.checkBoxState)
+        self.checkbox2.resize(200, 30)
 
-        self.radio3 = QRadioButton("텍스트 파일", self)
-        self.radio3.move(20, 165)
-        self.radio3.clicked.connect(self.radioButtonClicked)
+        self.checkbox3 = QCheckBox("텍스트 파일", self)
+        self.checkbox3.move(20, 165)
+        self.checkbox3.stateChanged.connect(self.checkBoxState)
+        # self.checkbox3.clicked.connect(self.radioButtonClicked)
 
-        self.radio4 = QRadioButton("CNN 요약", self)
-        self.radio4.move(20, 185)
-        self.radio4.clicked.connect(self.radioButtonClicked)
+        self.checkbox4 = QCheckBox("CNN 요약", self)
+        self.checkbox4.move(20, 185)
+        self.checkbox4.stateChanged.connect(self.checkBoxState)
+        # self.radio4.clicked.connect(self.radioButtonClicked)
 
-        self.radio5 = QRadioButton("고대 대나무숲", self)
-        self.radio5.move(20, 205)
-        self.radio5.clicked.connect(self.radioButtonClicked)
+        self.checkbox5 = QCheckBox("고대 대나무숲", self)
+        self.checkbox5.move(20, 205)
+        self.checkbox5.stateChanged.connect(self.checkBoxState)
+        # self.radio5.clicked.connect(self.radioButtonClicked)
 
         textLabel = QLabel("Message:  ", self)
         textLabel.move(20, 240)
@@ -473,31 +572,80 @@ class MyWindow(QMainWindow):
         enrollmentdate=self.lineEditEnlistmentDate.text()
         birthday=self.lineEditSoldierBirthDate.text()
 
+     # def radioButtonClicked(self):
+     #    msg = ""
+     #    global type
+     #    if self.radio1.isChecked():
+     #        msg = "JTBC 뉴스 Top 10 전문"
+     #        type=7
+     #
+     #    elif self.radio2.isChecked():
+     #        msg = "중앙일보 기본, 연예, 스포츠 요약"
+     #        type=0
+     #
+     #    elif self.radio3.isChecked():
+     #        msg="텍스트 파일"
+     #        type=4
+     #
+     #    elif self.radio4.isChecked():
+     #        msg= "CNN 요약"
+     #        type=3
+     #
+     #    elif self.radio5.isChecked():
+     #        msg = "고대 대나무숲"
+     #        type=8
+     #
+     #    self.statusBar.showMessage(msg + " 선택 됨")
 
-    def radioButtonClicked(self):
+    def checkBoxState(self):
+
         msg = ""
-        global type
-        if self.radio1.isChecked():
-            msg = "JTBC 뉴스 Top 10 전문"
-            type=7
+        global types
+        types=[]
+        # print(types)
+        if self.checkbox1.isChecked() == True:
+            msg += "JTBC 뉴스 Top 10 전문 "
+            types.append(7)
+            # print(types)
+        elif self.checkbox1.isChecked() != True:
+            for i in range(0,types.count(7)):
+                types.remove(7)
+            # print(types)
 
-        elif self.radio2.isChecked():
-            msg = "중앙일보 기본, 연예, 스포츠 요약"
-            type=0
+        if self.checkbox2.isChecked() == True:
+            msg += "중앙일보 기본, 연예, 스포츠 요약 "
+            types.append(0)
+            # print(types)
+        elif self.checkbox2.isChecked() !=True:
+            for i in range(0,types.count(0)):
+                types.remove(0)
 
-        elif self.radio3.isChecked():
-            msg="텍스트 파일"
-            type=4
+        if self.checkbox3.isChecked() == True:
+            msg += "텍스트 파일 "
+            types.append(4)
+            # print(types)
+        elif self.checkbox3.isChecked() != True:
+            for i in range(0,types.count(4)):
+                types.remove(4)
 
-        elif self.radio4.isChecked():
-            msg= "CNN 요약"
-            type=3
+        if self.checkbox4.isChecked() == True:
+            msg += "CNN 요약 "
+            types.append(3)
+            # print(types)
+        elif self.checkbox4.isChecked() != True:
+            for i in range(0,types.count(3)):
+                types.remove(3)
 
-        elif self.radio5.isChecked():
-            msg = "고대 대나무숲"
-            type=8
-
-        self.statusBar.showMessage(msg + " 선택 됨")
+        if self.checkbox5.isChecked() == True:
+            msg += "고대 대나무숲 "
+            types.append(8)
+            # print(types)
+        elif self.checkbox5.isChecked() != True:
+            for i in range(0,types.count(8)):
+                types.remove(8)
+        # types=set(types)
+        # print(types)
+        self.statusBar.showMessage(msg)
 
     def btn1_clicked(self):
 
@@ -528,10 +676,12 @@ class MyWindow(QMainWindow):
             print("훈련병 생일이 형식에 맞지 않습니다 다시 입력해주세요")
             return
 
-        global name,birthday,enrollmentdate, type
+        global name,birthday,enrollmentdate, types
 
         self.label.setText(" 핸드폰 인증이 뜰때까지 아무것도 건드리지마세요")
-        sendletter(name,birthday,enrollmentdate, type)
+
+        print(types)
+        sendletter(name,birthday,enrollmentdate, types)
 
 
 
