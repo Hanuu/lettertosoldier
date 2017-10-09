@@ -271,12 +271,12 @@ def writecontent(type):
     #통일연세
     elif type==9:
         news=fetch_feed(page_id_yonsei)
-        print(news)
+#         print(news)
     
     #자주관악
     elif type==10:
         news=fetch_feed(page_id_snu)
-        print(news)
+#         print(news)
 
     for a in news:
         if type == 4 or type ==7 or type ==8 or type==9 or type==10:
