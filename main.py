@@ -618,6 +618,7 @@ class MyWindow(QMainWindow):
 
         print(types)
         sendletter(name,birthday,enrollmentdate, types)
+        self.label.setText(" 편지작성이 모두 완료되었습니다.")
 
 
 
