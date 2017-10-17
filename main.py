@@ -29,12 +29,6 @@ import json;  import csv
 from datetime import date,timedelta; import time;
 from sys import platform
 
-#windows hidpi support
-if hasattr(QtCore.Qt, 'AA_EnableHighDpiScaling'):
-    PyQt5.QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
- 
-if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
-    PyQt5.QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
 
 #facebook crawling
 # access_token deleted for security purpose
