@@ -138,7 +138,6 @@ def processFacebookPageFeedStatus(status):
 
 
 def fetch_feed(page_id):
-    # print("I am string")
     print("대나무 숲은 데이터를 긁어오는데 시간이 걸립니다. 조금만 기다려주세요\n 컴퓨터성능에 따라 1~5분정도 걸립니다.")
     one_json = getFacebookPageFeedData(page_id, access_token, since, until)
     wan_data = ""
@@ -267,16 +266,12 @@ def writecontent(type):
     #민족고대
     elif type ==8:
         news=fetch_feed(page_id_korea)
-        # print("before")
     #통일연세
     elif type==9:
-        news=fetch_feed(page_id_yonsei)
-#         print(news)
-    
+        news=fetch_feed(page_id_yonsei)    
     #자주관악
     elif type==10:
         news=fetch_feed(page_id_snu)
-#         print(news)
 
     for a in news:
         if type == 4 or type ==7 or type ==8 or type==9 or type==10:
