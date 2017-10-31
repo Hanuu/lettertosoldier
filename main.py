@@ -15,21 +15,19 @@
 
 
 import sys, os
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
-from PyQt5 import uic
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from bs4 import BeautifulSoup
 import feedparser
 import urllib.request as req
-import urllib.request
 import re
 import datetime
-import json;  import csv
+import json
 from datetime import date,timedelta; import time;
 from sys import platform
-
-
+ 
 #facebook crawling
 # access_token deleted for security purpose
 app_id = ""
@@ -64,11 +62,11 @@ def getFacebookPageFeedData(page_id, access_token, since, unitl):
 
 
 def request_until_suceed(url):
-    req = urllib.request.Request(url)
+    req_url = req.Request(url)
     success = False
     while success is False:
         try:
-            response = urllib.request.urlopen(req)
+            response = req.urlopen(req_url)
             if response.getcode() == 200:
                 success = True
         except Exception as e:
@@ -619,6 +617,11 @@ class MyWindow(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    app.setStyle("fusion")
+    # Enable High DPI display with PyQt5
+    app.setAttribute(Qt.AA_EnableHighDpiScaling)
+    if hasattr(QStyleFactory, 'AA_UseHighDpiPixmaps'):
+        app.setAttribute(Qt.AA_UseHighDpiPixmaps)
     mywindow = MyWindow()
     mywindow.show()
     app.exec_()
