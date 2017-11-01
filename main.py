@@ -160,9 +160,9 @@ def fetch_feed(page_id):
             # print(e)
             try:
                 next_url = one_json["paging"]["next"]  # next url
-                print(next_url)
+                #print(next_url)
                 j = j + 1
-                print("----")
+                #print("----")
                 # print j #FOR CHECK
                 one_json = json.loads(request_until_suceed(next_url))
                 i = 0
