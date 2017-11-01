@@ -32,8 +32,8 @@ from sys import platform
 # facebook crawling
 # access_token deleted for security purpose
 
-app_id = ""
-app_secret = ""
+app_id = "347605572356077"
+app_secret = "453b1f7a0201ab84ae636c0a6fcfc33c"
 access_token = app_id + "|" + app_secret
 page_id_korea = "206910909512230"
 page_id_yonsei = "180446095498086"
@@ -203,7 +203,7 @@ def mainnews():
     return news
 
 
-def writecontent(type):
+def writecontent(type,length):
     totalcharacter = 0
     global numberofpages, contents
     numberofpages = 0
@@ -282,7 +282,7 @@ def writecontent(type):
 
         if (b != None):
 
-            if (totalcharacter + len(b) > 730):
+            if (totalcharacter + len(b) > length-70):
                 contents[numberofpages] += "@@ https://minjunkwak.github.io/ @@"
                 numberofpages += 1
                 totalcharacter = 0
@@ -370,7 +370,7 @@ def sendletter(name, birthday, enrollmentdate, types):
             today += " 서울대학교 대나무숲"
         title = today
 
-        writecontent(type)
+        writecontent(type,800)
 
         # 크롬창 알림 제거
         alert = driver.switch_to_alert()
@@ -441,7 +441,7 @@ def sendletterbydivision(name, birthday, enrollmentdate, division, types):
             today += " 서울대학교 대나무숲"
         title = today
 
-        writecontent(type)
+        writecontent(type,1200)
 
             # 크롬창 알림 제거
         alert = driver.switch_to_alert()
