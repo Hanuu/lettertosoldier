@@ -138,7 +138,7 @@ def processFacebookPageFeedStatus(status):
 
 
 def fetch_feed(page_id):
-    print("대나무 숲은 데이터를 긁어오는데 시간이 걸립니다. 조금만 기다려주세요\n 컴퓨터성능에 따라 1~5분정도 걸립니다.")
+    # print("대나무 숲은 데이터를 긁어오는데 시간이 걸립니다. 조금만 기다려주세요\n 컴퓨터성능에 따라 1~5분정도 걸립니다.")
     one_json = getFacebookPageFeedData(page_id, access_token, since, until)
     wan_data = ""
     j = 0
@@ -310,8 +310,9 @@ uppath = lambda _path, n: os.sep.join(_path.split(os.sep)[:-n])
 
 
 def sendletter(name, birthday, enrollmentdate, types):
-    print("자동화된 크롬창을 건들면 프로시져가 취소됩니다.")
-    print("휴대폰 인증이 뜨면 인증을 해주세요")
+    # print("자동화된 크롬창을 건들면 프로시져가 취소됩니다.")
+    # print("휴대폰 인증이 뜨면 인증을 해주세요")
+
 
     if platform == "darwin":
         driver = webdriver.Chrome("./chromedriver")
@@ -374,7 +375,7 @@ def sendletter(name, birthday, enrollmentdate, types):
 
         # 크롬창 알림 제거
         alert = driver.switch_to_alert()
-        print("편지 작성이 시작됩니다. 크롬창을 가만히 두세요")
+        # print("편지 작성이 시작됩니다. 크롬창을 가만히 두세요")
         # 편지작성(글자수에 따른 분할)
         for i in range(0, numberofpages + 1):
             driver.find_element_by_css_selector("#article_title").send_keys(title + str(i + 1))
@@ -389,12 +390,11 @@ def sendletter(name, birthday, enrollmentdate, types):
 
             driver.find_element_by_css_selector("#letterBtn").click()
 
-    driver.quit()
 
 def sendletterbydivision(name, birthday, enrollmentdate, division, types):
     # print("AsdA")
-    print("자동화된 크롬창을 건들면 프로시져가 취소됩니다.")
-    print("휴대폰 인증이 뜨면 인증을 해주세요")
+    # print("자동화된 크롬창을 건들면 프로시져가 취소됩니다.")
+    # print("휴대폰 인증이 뜨면 인증을 해주세요")
 
     if platform == "darwin":
         driver = webdriver.Chrome("./chromedriver")
@@ -445,7 +445,7 @@ def sendletterbydivision(name, birthday, enrollmentdate, division, types):
 
             # 크롬창 알림 제거
         alert = driver.switch_to_alert()
-        print("편지 작성이 시작됩니다. 크롬창을 가만히 두세요")  # 편지작성(글자수에 따른 분할)
+        # print("편지 작성이 시작됩니다. 크롬창을 가만히 두세요")  # 편지작성(글자수에 따른 분할)
 
         for i in range(0, numberofpages + 1):
             driver.find_element_by_css_selector("#title").send_keys(title + str(i + 1))
@@ -582,7 +582,7 @@ class MyWindow(QMainWindow):
         self.label.resize(300, 30)
 
         btn1 = QPushButton("보내기", self)
-        btn1.move(250, 320)
+        btn1.move(250, 330)
         btn1.clicked.connect(self.btn1_clicked)
 
         self.statusBar = QStatusBar(self)
@@ -638,6 +638,7 @@ class MyWindow(QMainWindow):
         if self.checkbox5.isChecked() == True:
             msg += "고대 대나무숲 /"
             types.append(8)
+            self.label.setText("대나무 숲은 데이터를 긁어오는데 시간이 걸립니다.\n 컴퓨터성능에 따라 1~5분정도 걸립니다.")
             # print(types)
         elif self.checkbox5.isChecked() != True:
             for i in range(0, types.count(8)):
@@ -646,6 +647,7 @@ class MyWindow(QMainWindow):
         if self.checkbox6.isChecked() == True:
             msg += "연대 대나무숲 /"
             types.append(9)
+            self.label.setText("대나무 숲은 데이터를 긁어오는데 시간이 걸립니다. \n 컴퓨터성능에 따라 1~5분정도 걸립니다.")
             # print(types)
         elif self.checkbox6.isChecked() != True:
             for i in range(0, types.count(9)):
@@ -654,6 +656,7 @@ class MyWindow(QMainWindow):
         if self.checkbox7.isChecked() == True:
             msg += "서울대 대나무숲 /"
             types.append(10)
+            self.label.setText("대나무 숲은 데이터를 긁어오는데 시간이 걸립니다. \n 컴퓨터성능에 따라 1~5분정도 걸립니다.")
             # print(types)
         elif self.checkbox7.isChecked() != True:
             for i in range(0, types.count(10)):
@@ -662,7 +665,6 @@ class MyWindow(QMainWindow):
         self.statusBar.showMessage(msg)
 
     def btn1_clicked(self):
-
         # regexp
         regexName = r'[가-힣]'
         regexEnroll = r'(?<!\d)(?:(?:20\d{2})(?:(?:(?:0[13578]|1[02])31)|(?:(?:0[1,3-9]|1[0-2])(?:29|30)))|(?:(?:20(?:0[48]|[2468][048]|[13579][26]))0229)|(?:20\d{2})(?:(?:0?[1-9])|(?:1[0-2]))(?:0?[1-9]|1\d|2[0-8]))(?!\d)'
@@ -670,7 +672,6 @@ class MyWindow(QMainWindow):
         regexDivision = r'\d+'
         global inputName, inputEnroll, inputBirth, inputDivision
 
-        self.label.setText(" 핸드폰 인증이 뜰때까지 아무것도 건드리지마세요")
 
         inputName = re.findall(regexName, self.lineEditName.text())
         inputEnroll = re.findall(regexEnroll, self.lineEditEnlistmentDate.text())
@@ -680,32 +681,34 @@ class MyWindow(QMainWindow):
         # print(inputName, inputEnroll, inputBirth, inputDivision)
         if inputName == []:
             self.label.setText(" 이름이 형식에 맞지 않습니다")
-            print("이름이 형식에 맞지 않습니다 다시 입력해주세요")
+            # print("이름이 형식에 맞지 않습니다 다시 입력해주세요")
             return
         if inputEnroll == []:
             self.label.setText(" 입대일이 형식에 맞지 않습니다")
-            print("입대일이 형식에 맞지 않습니다 다시 입력해주세요")
+            # print("입대일이 형식에 맞지 않습니다 다시 입력해주세요")
             return
         if inputBirth == []:
             self.label.setText(" 훈련병 생일이 형식에 맞지 않습니다")
-            print("훈련병 생일이 형식에 맞지 않습니다 다시 입력해주세요")
+            # print("훈련병 생일이 형식에 맞지 않습니다 다시 입력해주세요")
             return
         
         if inputDivision == []:
             self.label.setText(" 훈련병 사단이 형식에 맞지 않습니다")
-            print("훈련병 사단이 형식에 맞지 않습니다 다시 입력해주세요")
+            # print("훈련병 사단이 형식에 맞지 않습니다 다시 입력해주세요")
             return
+        # self.label.setText(" 핸드폰 인증이 뜰때까지 아무것도 건드리지마세요")
+
+
 
         global name, birthday, enrollmentdate, types, division
 
-        self.label.setText(" 핸드폰 인증이 뜰때까지 아무것도 건드리지마세요")
 
-        # print(types)
         if division == "0":
+            # self.label.setText(" 핸드폰 인증이 뜰때까지 아무것도 건드리지마세요")
             sendletter(name, birthday, enrollmentdate, types)
         else:
             # print(name,birthday,enrollmentdate,division,types)
-
+            # self.label.setText(" 핸드폰 인증이 뜰때까지 아무것도 건드리지마세요")
             sendletterbydivision(name, birthday, enrollmentdate, division, types)
         self.label.setText(" 편지작성이 모두 완료되었습니다.")
 
