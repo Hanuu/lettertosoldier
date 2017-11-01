@@ -32,8 +32,8 @@ from sys import platform
 # facebook crawling
 # access_token deleted for security purpose
 
-app_id = "347605572356077"
-app_secret = "453b1f7a0201ab84ae636c0a6fcfc33c"
+app_id = ""
+app_secret = ""
 access_token = app_id + "|" + app_secret
 page_id_korea = "206910909512230"
 page_id_yonsei = "180446095498086"
