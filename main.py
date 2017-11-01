@@ -1,17 +1,17 @@
-#Copyright 2007-2009 WebDriver committers
-#Copyright 2007-2009 Google Inc.
+# Copyright 2007-2009 WebDriver committers
+# Copyright 2007-2009 Google Inc.
 #
-#Licensed under the Apache License, Version 2.0 (the "License");
-#you may not use this file except in compliance with the License.
-#You may obtain a copy of the License at
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
 #     http://www.apache.org/licenses/LICENSE-2.0
 #
-#Unless required by applicable law or agreed to in writing, software
-#distributed under the License is distributed on an "AS IS" BASIS,
-#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#See the License for the specific language governing permissions and
-#limitations under the License.
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 
 import sys, os
@@ -25,11 +25,13 @@ import urllib.request as req
 import re
 import datetime
 import json
-from datetime import date,timedelta; import time;
+from datetime import date, timedelta;
+import time;
 from sys import platform
- 
-#facebook crawling
+
+# facebook crawling
 # access_token deleted for security purpose
+
 app_id = ""
 app_secret = ""
 access_token = app_id + "|" + app_secret
@@ -100,7 +102,7 @@ def fetch_comments(status, status_message):
                     if like_count > 10:
                         com = com + ' :] ' + comments[i]['message'].encode('cp949', errors='replace').decode('cp949')
                         # print("like_count : %s"%like_count)
-                    i = i+1
+                    i = i + 1
                 except:
                     break
                     ############
@@ -109,7 +111,7 @@ def fetch_comments(status, status_message):
             nex = json.loads(request_until_suceed(page['paging']['next']))
             page = nex
             j = j + 1;
-            #print("   %d th comment in one status" % j)
+            # print("   %d th comment in one status" % j)
             # print json.dumps(page, indent=4, sort_keys=True)###DELETE
 
         except KeyError:  # no more next
@@ -147,10 +149,10 @@ def fetch_feed(page_id):
             test_status = one_json["data"][i]
             num_likes = test_status["likes"]["summary"]["total_count"]
 
-            if num_likes > 200 :
+            if num_likes > 200:
                 processed_test_status = processFacebookPageFeedStatus(test_status)
                 # wan_data.append(list(processed_test_status))
-                wan_data+=str(processed_test_status)
+                wan_data += str(processed_test_status)
                 # print("%d th status in %d" % (i, num))
                 num = num + 1
             i = i + 1
@@ -168,21 +170,23 @@ def fetch_feed(page_id):
             except KeyError:
                 # print('End of Document')
                 break
-        # print(wan_data)
+                # print(wan_data)
     # print("get out")
     return str(wan_data)
 
+
 # 뉴스 전문 파싱
 def get_text(URL):
-  source_code_from_URL = req.urlopen(URL)
-  soup = BeautifulSoup(source_code_from_URL, 'lxml', from_encoding='utf-8')
-  text = ''
-  for item in soup.find_all('div', itemprop='articleBody'):
-    text = text + str(item.find_all(text=True))
-  return text
+    source_code_from_URL = req.urlopen(URL)
+    soup = BeautifulSoup(source_code_from_URL, 'lxml', from_encoding='utf-8')
+    text = ''
+    for item in soup.find_all('div', itemprop='articleBody'):
+        text = text + str(item.find_all(text=True))
+    return text
+
 
 def mainnews():
-    news=""
+    news = ""
     RSS_URL = "http://fs.jtbc.joins.com//RSS/newsrank.xml"
     news_link = feedparser.parse(RSS_URL)
 
@@ -194,13 +198,12 @@ def mainnews():
         result_text = re.sub('[a-zA-Z]', '', result_text)
         result_text = re.sub('[\{\}\[\]\/?,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]', '', result_text)
 
-        news+=result_text
+        news += result_text
 
     return news
 
 
 def writecontent(type):
-
     totalcharacter = 0
     global numberofpages, contents
     numberofpages = 0
@@ -242,7 +245,7 @@ def writecontent(type):
         news = soup.select("title,description")
 
     elif type == 7:
-        news=mainnews()
+        news = mainnews()
 
     elif type == 0:
 
@@ -260,19 +263,19 @@ def writecontent(type):
         res = req.urlopen(url)
         soup = BeautifulSoup(res, "html.parser")
         news += soup.select("title,description")
-    
-    #민족고대
-    elif type ==8:
-        news=fetch_feed(page_id_korea)
-    #통일연세
-    elif type==9:
-        news=fetch_feed(page_id_yonsei)    
-    #자주관악
-    elif type==10:
-        news=fetch_feed(page_id_snu)
+
+    # 민족고대
+    elif type == 8:
+        news = fetch_feed(page_id_korea)
+    # 통일연세
+    elif type == 9:
+        news = fetch_feed(page_id_yonsei)
+        # 자주관악
+    elif type == 10:
+        news = fetch_feed(page_id_snu)
 
     for a in news:
-        if type == 4 or type ==7 or type ==8 or type==9 or type==10:
+        if type == 4 or type == 7 or type == 8 or type == 9 or type == 10:
             b = a
         else:
             b = a.string
@@ -280,12 +283,12 @@ def writecontent(type):
         if (b != None):
 
             if (totalcharacter + len(b) > 730):
-                contents[numberofpages]+="@@ https://minjunkwak.github.io/ @@"
+                contents[numberofpages] += "@@ https://minjunkwak.github.io/ @@"
                 numberofpages += 1
                 totalcharacter = 0
                 contents.append("")
 
-            if type == 4 or type ==7 or type==8 or type==9 or type==10:
+            if type == 4 or type == 7 or type == 8 or type == 9 or type == 10:
 
                 # 육군훈련소의 인터넷 편지는 줄바꿈이 인식이 되지않는다.
                 if (b == "\n"):
@@ -301,6 +304,8 @@ def writecontent(type):
     totalcharacter = 0
     contents.append("")
     contents[numberofpages] += "@@ https://minjunkwak.github.io/ @@"
+
+
 uppath = lambda _path, n: os.sep.join(_path.split(os.sep)[:-n])
 
 
@@ -312,7 +317,7 @@ def sendletter(name, birthday, enrollmentdate, types):
         driver = webdriver.Chrome("./chromedriver")
     elif platform == "win32":
         driver = webdriver.Chrome()
-        
+
     # 크롬 창 최대화를 통해 에러제거
     driver.maximize_window()
 
@@ -338,7 +343,6 @@ def sendletter(name, birthday, enrollmentdate, types):
 
     driver.implicitly_wait(3000)
 
-
     for type in types:
         # 제목은 오늘날짜
         today = str(datetime.date.today())
@@ -360,10 +364,10 @@ def sendletter(name, birthday, enrollmentdate, types):
             today += " 중앙일보 기본, 연예, 스포츠 뉴스"
         elif type == 8:
             today += " 고려대학교 대나무숲"
-        elif type==9:
-            today+=" 연세대학교 대나무숲"
-        elif type==10:
-            today+=" 서울대학교 대나무숲"
+        elif type == 9:
+            today += " 연세대학교 대나무숲"
+        elif type == 10:
+            today += " 서울대학교 대나무숲"
         title = today
 
         writecontent(type)
@@ -387,6 +391,83 @@ def sendletter(name, birthday, enrollmentdate, types):
 
     driver.quit()
 
+def sendletterbydivision(name, birthday, enrollmentdate, division, types):
+    # print("AsdA")
+    print("자동화된 크롬창을 건들면 프로시져가 취소됩니다.")
+    print("휴대폰 인증이 뜨면 인증을 해주세요")
+
+    if platform == "darwin":
+        driver = webdriver.Chrome("./chromedriver")
+    elif platform == "win32":
+        driver = webdriver.Chrome()
+
+     # 크롬 창 최대화를 통해 에러제거
+    driver.maximize_window()
+    address = "http://www.army.mil.kr/iletter/searchRec.do?div_code=" + division + "div"
+
+        # 육군훈련소 주소
+    driver.get(address)
+
+        # 훈련병 신상
+    driver.find_element_by_css_selector("#dsearchtop > input").send_keys(name)
+    driver.find_element_by_css_selector("#dbutton").click()
+
+    driver.find_element_by_css_selector("#name2 > a").click()
+
+    for type in types:
+            # 제목은 오늘날짜
+        today = str(datetime.date.today())
+        if type == 1:
+            today += " JTBC 뉴스"
+        elif type == 2:
+            today += " 중앙일보 뉴스"
+        elif type == 3:
+            today += " CNN 뉴스"
+        elif type == 4:
+            today += "텍스트파일.txt"
+        elif type == 5:
+            today += " 중앙일보 연예 뉴스"
+        elif type == 6:
+            today += " 중앙일보 스포츠 뉴스"
+        elif type == 7:
+            today += " JTBC 탑텐 뉴스 전문"
+        elif type == 0:
+            today += " 중앙일보 기본, 연예, 스포츠 뉴스"
+        elif type == 8:
+            today += " 고려대학교 대나무숲"
+        elif type == 9:
+            today += " 연세대학교 대나무숲"
+        elif type == 10:
+            today += " 서울대학교 대나무숲"
+        title = today
+
+        writecontent(type)
+
+            # 크롬창 알림 제거
+        alert = driver.switch_to_alert()
+        print("편지 작성이 시작됩니다. 크롬창을 가만히 두세요")  # 편지작성(글자수에 따른 분할)
+
+        for i in range(0, numberofpages + 1):
+            driver.find_element_by_css_selector("#title").send_keys(title + str(i + 1))
+            driver.find_element_by_css_selector("#contents").send_keys(contents[i])
+            driver.find_element_by_css_selector("#pw").send_keys("1234")
+            driver.find_element_by_css_selector("#writer").send_keys("lettertosoldier")
+            driver.find_element_by_css_selector("#insert").click()
+                # alert.accept()
+                # print("waitbefore")
+                # driver.implicitly_wait(80)
+                # print("waitafter")
+
+            # driver.find_element_by_css_selector("#letterBtn").click()
+            driver.get(address)
+
+                # 훈련병 신상
+            driver.find_element_by_css_selector("#dsearchtop > input").send_keys(name)
+            driver.find_element_by_css_selector("#dbutton").click()
+
+            driver.find_element_by_css_selector("#name2 > a").click()
+
+
 
 # 보내는 편지의 장수
 numberofpages = 0
@@ -396,7 +477,8 @@ contents = ["@@ https://minjunkwak.github.io/ @@"]
 enrollmentdate = "20170904"
 name = "이인준"
 birthday = "940228"
-types = [7,0,4,3,8,9,10]
+division = "0"
+types = [7, 0, 4, 3, 8, 9, 10]
 
 
 class MyWindow(QMainWindow):
@@ -405,7 +487,7 @@ class MyWindow(QMainWindow):
         self.setupUI()
 
     def setupUI(self):
-        self.setGeometry(800, 400, 360, 360)
+        self.setGeometry(800, 400, 360, 380)
 
         # Label
         soldiername = QLabel("훈련병 이름", self)
@@ -417,6 +499,9 @@ class MyWindow(QMainWindow):
         soldierbirthdate = QLabel("훈련병 생일", self)
         soldierbirthdate.move(20, 95)
 
+        soldierdivision = QLabel("사단", self)
+        soldierdivision.move(20, 130)
+
         soldiername = QLabel("(예: 이인준)", self)
         soldiername.move(200, 25)
 
@@ -426,7 +511,8 @@ class MyWindow(QMainWindow):
         soldierbirthdate = QLabel("(예: 940228)", self)
         soldierbirthdate.move(200, 95)
 
-
+        soldierdivision = QLabel("(예: 1,논산: 0)", self)
+        soldierdivision.move(200, 130)
 
         # LineEdit
         self.lineEditName = QLineEdit("", self)
@@ -441,133 +527,132 @@ class MyWindow(QMainWindow):
         self.lineEditSoldierBirthDate.move(90, 95)
         self.lineEditSoldierBirthDate.textChanged.connect(self.lineEditChanged)
 
+        self.lineEditSoldierDivision = QLineEdit("", self)
+        self.lineEditSoldierDivision.move(90, 130)
+        self.lineEditSoldierDivision.textChanged.connect(self.lineEditChanged)
 
-
-        global inputName,inputBirth,inputEnroll
-
+        global inputName, inputBirth, inputEnroll, inputDivision
 
         # StatusBar
         self.statusBar = QStatusBar(self)
         self.setStatusBar(self.statusBar)
 
         self.checkbox1 = QCheckBox("JTBC Top 10 전문", self)
-        self.checkbox1.move(20, 125)
+        self.checkbox1.move(20, 160)
         # self.checkbox1.setChecked(True)
         self.checkbox1.stateChanged.connect(self.checkBoxState)
         # self.radio1.clicked.connect(self.radioButtonClicked)
-        self.checkbox1.resize(200,30)
+        self.checkbox1.resize(200, 30)
 
         self.checkbox2 = QCheckBox("중앙일보 기본, 연예, 스포츠 요약", self)
-        self.checkbox2.move(20, 145)
+        self.checkbox2.move(20, 180)
         # self.checkbox2.clicked.connect(self.radioButtonClicked)
         self.checkbox2.stateChanged.connect(self.checkBoxState)
         self.checkbox2.resize(200, 30)
 
         self.checkbox3 = QCheckBox("텍스트 파일", self)
-        self.checkbox3.move(20, 165)
+        self.checkbox3.move(20, 200)
         self.checkbox3.stateChanged.connect(self.checkBoxState)
         # self.checkbox3.clicked.connect(self.radioButtonClicked)
 
         self.checkbox4 = QCheckBox("CNN 요약", self)
-        self.checkbox4.move(20, 185)
+        self.checkbox4.move(20, 220)
         self.checkbox4.stateChanged.connect(self.checkBoxState)
         # self.radio4.clicked.connect(self.radioButtonClicked)
 
         self.checkbox5 = QCheckBox("고대 대나무숲", self)
-        self.checkbox5.move(20, 205)
+        self.checkbox5.move(20, 240)
         self.checkbox5.stateChanged.connect(self.checkBoxState)
         # self.radio5.clicked.connect(self.radioButtonClicked)
 
         self.checkbox6 = QCheckBox("연대 대나무숲", self)
-        self.checkbox6.move(20, 225)
+        self.checkbox6.move(20, 260)
         self.checkbox6.stateChanged.connect(self.checkBoxState)
 
         self.checkbox7 = QCheckBox("서울대 대나무숲", self)
-        self.checkbox7.move(20, 245)
+        self.checkbox7.move(20, 280)
         self.checkbox7.resize(300, 30)
         self.checkbox7.stateChanged.connect(self.checkBoxState)
 
-
         textLabel = QLabel("Message:  ", self)
-        textLabel.move(20, 265)
+        textLabel.move(20, 300)
 
         self.label = QLabel("", self)
-        self.label.move(80, 265)
+        self.label.move(80, 300)
         self.label.resize(300, 30)
 
         btn1 = QPushButton("보내기", self)
-        btn1.move(200, 305)
+        btn1.move(250, 320)
         btn1.clicked.connect(self.btn1_clicked)
-
 
         self.statusBar = QStatusBar(self)
         self.setStatusBar(self.statusBar)
 
     def lineEditChanged(self):
 
-        global name,enrollmentdate,birthday
-        name=self.lineEditName.text()
-        enrollmentdate=self.lineEditEnlistmentDate.text()
-        birthday=self.lineEditSoldierBirthDate.text()
-
+        global name, enrollmentdate, birthday, division
+        name = self.lineEditName.text()
+        enrollmentdate = self.lineEditEnlistmentDate.text()
+        birthday = self.lineEditSoldierBirthDate.text()
+        division = self.lineEditSoldierDivision.text()
 
     def checkBoxState(self):
 
         msg = ""
         global types
-        types=[]
+        types = []
         # print(types)
         if self.checkbox1.isChecked() == True:
-            msg += "JTBC 뉴스 Top 10 전문 "
+            msg += "JTBC 뉴스 Top 10 전문 /"
             types.append(7)
             # print(types)
         elif self.checkbox1.isChecked() != True:
-            for i in range(0,types.count(7)):
+            for i in range(0, types.count(7)):
                 types.remove(7)
-            # print(types)
+                # print(types)
 
         if self.checkbox2.isChecked() == True:
-            msg += "중앙일보 기본, 연예, 스포츠 요약 "
+            msg += "중앙일보 기본, 연예, 스포츠 요약 /"
             types.append(0)
             # print(types)
-        elif self.checkbox2.isChecked() !=True:
-            for i in range(0,types.count(0)):
+        elif self.checkbox2.isChecked() != True:
+            for i in range(0, types.count(0)):
                 types.remove(0)
 
         if self.checkbox3.isChecked() == True:
-            msg += "텍스트 파일 "
+            msg += "텍스트 파일 /"
             types.append(4)
             # print(types)
         elif self.checkbox3.isChecked() != True:
-            for i in range(0,types.count(4)):
+            for i in range(0, types.count(4)):
                 types.remove(4)
 
         if self.checkbox4.isChecked() == True:
-            msg += "CNN 요약 "
+            msg += "CNN 요약 /"
             types.append(3)
             # print(types)
         elif self.checkbox4.isChecked() != True:
-            for i in range(0,types.count(3)):
+            for i in range(0, types.count(3)):
                 types.remove(3)
 
         if self.checkbox5.isChecked() == True:
-            msg += "고대 대나무숲 "
+            msg += "고대 대나무숲 /"
             types.append(8)
             # print(types)
         elif self.checkbox5.isChecked() != True:
-            for i in range(0,types.count(8)):
+            for i in range(0, types.count(8)):
                 types.remove(8)
 
         if self.checkbox6.isChecked() == True:
-            msg += "연대 대나무숲 "
+            msg += "연대 대나무숲 /"
             types.append(9)
             # print(types)
         elif self.checkbox6.isChecked() != True:
             for i in range(0, types.count(9)):
                 types.remove(9)
-                
+
         if self.checkbox7.isChecked() == True:
-            msg += "서울대 대나무숲 "
+            msg += "서울대 대나무숲 /"
             types.append(10)
             # print(types)
         elif self.checkbox7.isChecked() != True:
@@ -582,37 +667,47 @@ class MyWindow(QMainWindow):
         regexName = r'[가-힣]'
         regexEnroll = r'(?<!\d)(?:(?:20\d{2})(?:(?:(?:0[13578]|1[02])31)|(?:(?:0[1,3-9]|1[0-2])(?:29|30)))|(?:(?:20(?:0[48]|[2468][048]|[13579][26]))0229)|(?:20\d{2})(?:(?:0?[1-9])|(?:1[0-2]))(?:0?[1-9]|1\d|2[0-8]))(?!\d)'
         regexBirth = r'^((\d{2}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|([02468][048]|[13579][26])0229)$'
-
-        global inputName, inputEnroll,inputBirth
+        regexDivision = r'\d+'
+        global inputName, inputEnroll, inputBirth, inputDivision
 
         self.label.setText(" 핸드폰 인증이 뜰때까지 아무것도 건드리지마세요")
 
         inputName = re.findall(regexName, self.lineEditName.text())
         inputEnroll = re.findall(regexEnroll, self.lineEditEnlistmentDate.text())
         inputBirth = re.findall(regexBirth, self.lineEditSoldierBirthDate.text())
+        inputDivision = re.findall(regexDivision, self.lineEditSoldierDivision.text())
 
-        # print(inputName, inputEnroll,inputBirth)
-        if inputName==[]:
+        # print(inputName, inputEnroll, inputBirth, inputDivision)
+        if inputName == []:
             self.label.setText(" 이름이 형식에 맞지 않습니다")
             print("이름이 형식에 맞지 않습니다 다시 입력해주세요")
             return
-        if inputEnroll==[]:
+        if inputEnroll == []:
             self.label.setText(" 입대일이 형식에 맞지 않습니다")
             print("입대일이 형식에 맞지 않습니다 다시 입력해주세요")
             return
-        if inputBirth==[]:
+        if inputBirth == []:
             self.label.setText(" 훈련병 생일이 형식에 맞지 않습니다")
             print("훈련병 생일이 형식에 맞지 않습니다 다시 입력해주세요")
             return
+        
+        if inputDivision == []:
+            self.label.setText(" 훈련병 사단이 형식에 맞지 않습니다")
+            print("훈련병 사단이 형식에 맞지 않습니다 다시 입력해주세요")
+            return
 
-        global name,birthday,enrollmentdate, types
+        global name, birthday, enrollmentdate, types, division
 
         self.label.setText(" 핸드폰 인증이 뜰때까지 아무것도 건드리지마세요")
 
-        print(types)
-        sendletter(name,birthday,enrollmentdate, types)
-        self.label.setText(" 편지작성이 모두 완료되었습니다.")
+        # print(types)
+        if division == "0":
+            sendletter(name, birthday, enrollmentdate, types)
+        else:
+            # print(name,birthday,enrollmentdate,division,types)
 
+            sendletterbydivision(name, birthday, enrollmentdate, division, types)
+        self.label.setText(" 편지작성이 모두 완료되었습니다.")
 
 
 if __name__ == "__main__":
@@ -625,6 +720,6 @@ if __name__ == "__main__":
     mywindow = MyWindow()
     mywindow.show()
     app.exec_()
-    
-    
-#내가 훈련소에 있었을때 매일밤 이 모든 작업을 수작으로 하였던 내 아버지에게 바칩니다.
+
+
+    # 내가 훈련소에 있었을때 매일밤 이 모든 작업을 수작으로 하였던 내 아버지에게 바칩니다.
