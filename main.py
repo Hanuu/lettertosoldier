@@ -270,7 +270,7 @@ def writecontent(type,length):
     # 통일연세
     elif type == 9:
         news = fetch_feed(page_id_yonsei)
-        # 자주관악
+    # 자주관악
     elif type == 10:
         news = fetch_feed(page_id_snu)
 
