@@ -28,6 +28,7 @@ import json
 from datetime import date, timedelta;
 import time;
 from sys import platform
+import requests
 
 # facebook crawling
 # access_token deleted for security purpose
