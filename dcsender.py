@@ -69,7 +69,7 @@ def dcwrite():
 
     # string = str(articletime[6])
 
-    datetoday = str(datetime.date.today()).split("-")
+    datetoday = str(datetime.date.today()-datetime.timedelta(1)).split("-")
 
     for i in range(0, len(articlenumbers)):
         # dc_ip=articlewriters[i].get("ip")
@@ -228,7 +228,7 @@ def sendletter(name, birthday, enrollmentdate, types):
 
     for type in types:
         # 제목은 오늘날짜
-        today = str(datetime.date.today())
+        today = str(datetime.date.today()-datetime.timedelta(1))
         if type == 1:
             today += " JTBC 뉴스"
         elif type == 2:
