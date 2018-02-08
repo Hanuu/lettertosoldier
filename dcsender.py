@@ -9,8 +9,8 @@ import urllib.request as req
 import re
 import datetime
 import json
-from datetime import date, timedelta;
-import time;
+from datetime import date, timedelta
+import time
 from sys import platform
 import requests
 
