@@ -200,7 +200,7 @@ def mainnews():
         result_text = re.sub('[\{\}\[\]\/?,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]', '', result_text)
 
         news += result_text
-
+    print(news)
     return news
 
 
@@ -334,7 +334,7 @@ def sendletter(name, birthday, enrollmentdate, types):
 
     driver.find_element_by_css_selector(
         "#item_body > div.sub_wrap > div > div > div.lo_765_left > div:nth-child(3) > div > div > div.child_search_wrap > form > fieldset > input.btn_05").click()
-    driver.find_element_by_css_selector("#childInfo").click()
+    driver.find_element_by_css_selector("#childInfo1").click()
     driver.implicitly_wait(1)
     driver.find_element_by_css_selector("#letterBtn").click()
 
@@ -375,7 +375,7 @@ def sendletter(name, birthday, enrollmentdate, types):
         writecontent(type,800)
 
         # 크롬창 알림 제거
-        alert = driver.switch_to_alert()
+        alert = driver.switch_to.alert
         # print("편지 작성이 시작됩니다. 크롬창을 가만히 두세요")
         # 편지작성(글자수에 따른 분할)
         for i in range(0, numberofpages + 1):
