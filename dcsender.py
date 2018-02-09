@@ -215,7 +215,7 @@ def sendletter(name, birthday, enrollmentdate, types):
 
     driver.find_element_by_css_selector(
         "#item_body > div.sub_wrap > div > div > div.lo_765_left > div:nth-child(3) > div > div > div.child_search_wrap > form > fieldset > input.btn_05").click()
-    driver.find_element_by_css_selector("#childInfo").click()
+    driver.find_element_by_css_selector("#childInfo1").click()
     driver.implicitly_wait(1)
     driver.find_element_by_css_selector("#letterBtn").click()
 
@@ -258,7 +258,9 @@ def sendletter(name, birthday, enrollmentdate, types):
         writecontent(type,800)
 
         # 크롬창 알림 제거
-        alert = driver.switch_to_alert()
+
+
+
         # print("편지 작성이 시작됩니다. 크롬창을 가만히 두세요")
         # 편지작성(글자수에 따른 분할)
         for i in range(0, numberofpages + 1):
@@ -267,12 +269,19 @@ def sendletter(name, birthday, enrollmentdate, types):
             driver.find_element_by_css_selector("#writer_password").send_keys("1234")
             driver.find_element_by_css_selector(
                 "#jwxe_main_content > div > div > form > fieldset > div > div > input").click()
-            alert.accept()
+
+            driver.implicitly_wait(3)
+            alert = driver.switch_to.alert
+            try:
+                alert.accept()
+            except:
+                pass
             # print("waitbefore")
             # driver.implicitly_wait(80)
             # print("waitafter")
 
             driver.find_element_by_css_selector("#letterBtn").click()
+
 
 # 보내는 편지의 장수
 numberofpages = 0
@@ -280,5 +289,5 @@ numberofpages = 0
 contents = ["@@ https://minjunkwak.github.io/ @@"]
 
 
-sendletter("정동건",961002,"20171226",[11])
+sendletter("정재훈",940915,"20180201",[11])
 # print(dcwrite())
