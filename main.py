@@ -709,7 +709,6 @@ class MyWindow(QMainWindow):
             sendletter(name, birthday, enrollmentdate, types)
         else:
             # print(name,birthday,enrollmentdate,division,types)
-            # self.label.setText(" 핸드폰 인증이 뜰때까지 아무것도 건드리지마세요")
             sendletterbydivision(name, birthday, enrollmentdate, division, types)
         self.label.setText(" 편지작성이 모두 완료되었습니다.")
 
