@@ -34,7 +34,7 @@ import requests
 # access_token deleted for security purpose
 
 app_id = "140635716554581"
-app_secret = ""
+app_secret = "a50fb37b7e5393ab023f6ba4917fc484"
 access_token = app_id + "|" + app_secret
 page_id_korea = "206910909512230"
 page_id_yonsei = "180446095498086"
