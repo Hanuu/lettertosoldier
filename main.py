@@ -327,10 +327,13 @@ def sendletter(name, birthday, enrollmentdate, types):
     driver.get("http://www.katc.mil.kr/katc/community/children.jsp")
 
     # 훈련병 신상
+    print(birthday, name, enrollmentdate)
+
     select = Select(driver.find_element_by_id("search_val1"))
     select.select_by_visible_text(enrollmentdate)
-    driver.find_element_by_css_selector("#birthDay").send_keys(birthday)
     driver.find_element_by_css_selector("#search_val3").send_keys(name)
+    driver.find_element_by_css_selector("#birthDay").send_keys(birthday)
+    print("enrollment sucessfully done")
 
     driver.find_element_by_css_selector(
         "#item_body > div.sub_wrap > div > div > div.lo_765_left > div:nth-child(3) > div > div > div.child_search_wrap > form > fieldset > input.btn_05").click()
