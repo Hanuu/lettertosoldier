@@ -33,7 +33,7 @@ import requests
 # facebook crawling
 # access_token deleted for security purpose
 
-app_id = ""
+app_id = "140635716554581"
 app_secret = ""
 access_token = app_id + "|" + app_secret
 page_id_korea = "206910909512230"
@@ -74,7 +74,7 @@ def request_until_suceed(url):
                 success = True
         except Exception as e:
             # print(e)  # wnat to know what error it is
-            time.sleep(5)
+            time.sleep(0.1)
             # print("Error for url %s : %s" % (url, datetime.datetime.now()))
 
     return response.read().decode(response.headers.get_content_charset())
@@ -333,7 +333,7 @@ def sendletter(name, birthday, enrollmentdate, types):
     select.select_by_visible_text(enrollmentdate)
     driver.find_element_by_css_selector("#search_val3").send_keys(name)
     driver.find_element_by_css_selector("#birthDay").send_keys(birthday)
-    print("enrollment sucessfully done")
+    # print("enrollment sucessfully done")
 
     driver.find_element_by_css_selector(
         "#item_body > div.sub_wrap > div > div > div.lo_765_left > div:nth-child(3) > div > div > div.child_search_wrap > form > fieldset > input.btn_05").click()
@@ -378,7 +378,10 @@ def sendletter(name, birthday, enrollmentdate, types):
         writecontent(type,800)
 
         # 크롬창 알림 제거
-        alert = driver.switch_to.alert
+        try:
+            alert = driver.switch_to.alert
+        except:
+            pass
         # print("편지 작성이 시작됩니다. 크롬창을 가만히 두세요")
         # 편지작성(글자수에 따른 분할)
         for i in range(0, numberofpages + 1):
@@ -387,10 +390,21 @@ def sendletter(name, birthday, enrollmentdate, types):
             driver.find_element_by_css_selector("#writer_password").send_keys("1234")
             driver.find_element_by_css_selector(
                 "#jwxe_main_content > div > div > form > fieldset > div > div > input").click()
+            alert = driver.switch_to.alert
             alert.accept()
             # print("waitbefore")
             # driver.implicitly_wait(80)
             # print("waitafter")
+            select = Select(driver.find_element_by_id("search_val1"))
+            select.select_by_visible_text(enrollmentdate)
+            driver.find_element_by_css_selector("#search_val3").send_keys(name)
+            driver.find_element_by_css_selector("#birthDay").send_keys(birthday)
+            # print("enrollment sucessfully done")
+
+            driver.find_element_by_css_selector(
+                "#item_body > div.sub_wrap > div > div > div.lo_765_left > div:nth-child(3) > div > div > div.child_search_wrap > form > fieldset > input.btn_05").click()
+            driver.find_element_by_css_selector("#childInfo1").click()
+            driver.implicitly_wait(1)
 
             driver.find_element_by_css_selector("#letterBtn").click()
 
