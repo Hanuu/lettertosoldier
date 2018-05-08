@@ -34,7 +34,7 @@ import requests
 # access_token deleted for security purpose
 
 app_id = "140635716554581"
-app_secret = "a50fb37b7e5393ab023f6ba4917fc484"
+app_secret = ""
 access_token = app_id + "|" + app_secret
 page_id_korea = "206910909512230"
 page_id_yonsei = "180446095498086"
@@ -200,7 +200,7 @@ def mainnews():
         result_text = re.sub('[\{\}\[\]\/?,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]', '', result_text)
 
         news += result_text
-    print(news)
+    # print(news)
     return news
 
 
@@ -358,7 +358,7 @@ def sendletter(name, birthday, enrollmentdate, types):
         elif type == 3:
             today += " CNN 뉴스"
         elif type == 4:
-            today += "텍스트파일.txt"
+            today += " 텍스트파일.txt"
         elif type == 5:
             today += " 중앙일보 연예 뉴스"
         elif type == 6:
@@ -385,7 +385,7 @@ def sendletter(name, birthday, enrollmentdate, types):
         # print("편지 작성이 시작됩니다. 크롬창을 가만히 두세요")
         # 편지작성(글자수에 따른 분할)
         for i in range(0, numberofpages + 1):
-            driver.find_element_by_css_selector("#article_title").send_keys(title + str(i + 1))
+            driver.find_element_by_css_selector("#article_title").send_keys(title + str(i + 1)+"-lettertosoldier")
             driver.find_element_by_css_selector("#article_text").send_keys(contents[i])
             driver.find_element_by_css_selector("#writer_password").send_keys("1234")
             driver.find_element_by_css_selector(
